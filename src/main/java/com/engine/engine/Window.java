@@ -3,9 +3,14 @@ package com.engine.engine;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
+import org.lwjgl.system.*;
 
+import java.nio.*;
+
+import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 public class Window {
@@ -13,12 +18,19 @@ public class Window {
     private String title;
     private long glfwWindow;
 
+    private float r, g, b, a;
+    private boolean fadeToBlack = false;
+
     private static Window window = null;
 
     private Window() {
         this.width = 1920;
         this.height = 1080;
         this.title = "Engine";
+        r = 1;
+        b = 1;
+        g = 1;
+        a = 1;
     }
 
     public static Window get() {
@@ -34,6 +46,14 @@ public class Window {
 
         init();
         loop();
+
+        // Free the window callbacks and destroy the window
+        glfwFreeCallbacks(glfwWindow);
+        glfwDestroyWindow(glfwWindow);
+
+        // Terminate GLFW and free the error callback
+        glfwTerminate();
+        glfwSetErrorCallback(null).free();
     }
 
     public void init() {
@@ -57,6 +77,16 @@ public class Window {
             throw new RuntimeException("Failed to create the GLFW window");
         }
 
+        // Callbacks after window is created
+        // Set mouse callbacks
+        glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback); // forward position function to the
+                                                                               // 'mousePosCallback'
+        glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
+        glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
+
+        // Set key callback
+        glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
+
         // Make the OpenGL context current
         glfwMakeContextCurrent(glfwWindow);
         // Enable v-sync
@@ -79,8 +109,27 @@ public class Window {
             glfwPollEvents();
 
             // Set the clear color
-            glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
+            glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT);
+
+            /////////////////////////////////// temp
+            if (fadeToBlack) {
+                r = Math.max(r - 0.01f, 0);
+                g = Math.max(g - 0.01f, 0);
+                b = Math.max(b - 0.01f, 0);
+            } else if (!fadeToBlack) {
+                r = Math.max(r + 0.01f, 0);
+                g = Math.max(g + 0.01f, 0);
+                b = Math.max(b + 0.01f, 0);
+            }
+
+            if (KeyListener.isKeyPressed(GLFW_KEY_SPACE)) {
+                fadeToBlack = true;
+            }
+            if (KeyListener.isKeyPressed(GLFW_KEY_BACKSPACE)) {
+                fadeToBlack = false;
+            }
+            /////////////////////////////////// 
 
             glfwSwapBuffers(glfwWindow);
         }
