@@ -3,14 +3,9 @@ package com.engine.engine;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
-import org.lwjgl.system.*;
 
-import java.nio.*;
-
-import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 public class Window {
@@ -35,7 +30,7 @@ public class Window {
     }
 
     public void run() {
-        System.out.println("Hello LWJGL " + Version.getVersion() + "!");
+        System.out.println("Running LWJGL version " + Version.getVersion());
 
         init();
         loop();
@@ -89,5 +84,17 @@ public class Window {
 
             glfwSwapBuffers(glfwWindow);
         }
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeigth(int height) {
+        this.height = height;
     }
 }
