@@ -5,6 +5,8 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
+import com.engine.engine.utils.Time;
+
 import java.nio.*;
 
 import static org.lwjgl.glfw.Callbacks.*;
@@ -18,10 +20,11 @@ public class Window {
     private String title;
     private long glfwWindow;
 
-    private float r, g, b, a;
+    public float r, g, b, a;
     private boolean fadeToBlack = false;
 
     private static Window window = null;
+    private static Scene currentScene;
 
     private Window() {
         this.width = 1920;
@@ -39,6 +42,21 @@ public class Window {
         }
 
         return Window.window;
+    }
+
+    public static void changeScene(int newScene) {
+        switch (newScene) {
+            case 0:
+                currentScene = new WorldEditorScene();
+                // currentScene.init();
+                break;
+            case 1:
+                currentScene = new PlaySimulationScene();
+                break;
+            default:
+                assert false : "Unknown scene '" + newScene + "'";
+                break;
+        }
     }
 
     public void run() {
@@ -94,15 +112,22 @@ public class Window {
 
         // Make the window visible
         glfwShowWindow(glfwWindow);
-    }
 
-    public void loop() {
         // This line is critical for LWJGL's interoperation with GLFW's
         // OpenGL context, or any context that is managed externally.
         // LWJGL detects the context that is current in the current thread,
         // creates the GLCapabilities instance and makes the OpenGL
         // bindings available for use.
         GL.createCapabilities();
+
+
+        Window.changeScene(0);
+    }
+
+    public void loop() {
+        float beginTime = Time.getTime();
+        float endTime;
+        float dt = -1.0f;
 
         while (!glfwWindowShouldClose(glfwWindow)) {
             // Poll events
@@ -112,26 +137,18 @@ public class Window {
             glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            /////////////////////////////////// temp
-            if (fadeToBlack) {
-                r = Math.max(r - 0.01f, 0);
-                g = Math.max(g - 0.01f, 0);
-                b = Math.max(b - 0.01f, 0);
-            } else if (!fadeToBlack) {
-                r = Math.max(r + 0.01f, 0);
-                g = Math.max(g + 0.01f, 0);
-                b = Math.max(b + 0.01f, 0);
+            // Update current scene
+            if (dt >= 0) {
+                currentScene.update(dt);
             }
 
-            if (KeyListener.isKeyPressed(GLFW_KEY_SPACE)) {
-                fadeToBlack = true;
-            }
-            if (KeyListener.isKeyPressed(GLFW_KEY_BACKSPACE)) {
-                fadeToBlack = false;
-            }
-            /////////////////////////////////// 
-
+            // Swap buffers
             glfwSwapBuffers(glfwWindow);
+
+            // Time
+            endTime = Time.getTime();
+            dt = endTime - beginTime;
+            beginTime = endTime;
         }
     }
 
