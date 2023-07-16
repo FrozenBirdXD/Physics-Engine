@@ -1,4 +1,4 @@
-package com.engine.engine;
+package com.engine.engine.listeners;
 
 import static org.lwjgl.glfw.GLFW.*;
 
