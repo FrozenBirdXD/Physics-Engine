@@ -2,6 +2,8 @@ package com.engine.engine;
 
 import java.awt.event.KeyEvent;
 
+import com.engine.engine.listeners.KeyListener;
+
 public class PlaySimulationScene extends Scene {
     private boolean changingScene = false;
     private float timeToChangeScene = 2.0f;

@@ -5,19 +5,23 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
+import com.engine.engine.listeners.DisplayListener;
+import com.engine.engine.listeners.KeyListener;
+import com.engine.engine.listeners.MouseListener;
 import com.engine.engine.utils.Time;
 
 import java.nio.*;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL33.*;
 import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 public class Window {
     private int width, height;
     private String title;
+    private boolean resizable;
     private long glfwWindow;
 
     public float r, g, b, a;
@@ -30,6 +34,7 @@ public class Window {
         this.width = 1920;
         this.height = 1080;
         this.title = "Engine";
+        this.resizable = true;
         r = 1;
         b = 1;
         g = 1;
@@ -84,13 +89,15 @@ public class Window {
 
         // Configure GLFW
         glfwDefaultWindowHints();
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
+        glfwWindowHint(GLFW_RESIZABLE, resizable ? GLFW_TRUE : GLFW_FALSE); // resizeability
         glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE); // the window will be maximized
 
         // Create the window
         glfwWindow = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
-
         if (glfwWindow == NULL) {
             throw new RuntimeException("Failed to create the GLFW window");
         }
@@ -105,14 +112,10 @@ public class Window {
         // Set key callback
         glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
 
+        glfwSetFramebufferSizeCallback(glfwWindow, DisplayListener::framebufferSizeCallback);
+
         // Make the OpenGL context current
         glfwMakeContextCurrent(glfwWindow);
-        // Enable v-sync
-        glfwSwapInterval(1);
-
-        // Make the window visible
-        glfwShowWindow(glfwWindow);
-
         // This line is critical for LWJGL's interoperation with GLFW's
         // OpenGL context, or any context that is managed externally.
         // LWJGL detects the context that is current in the current thread,
@@ -120,6 +123,14 @@ public class Window {
         // bindings available for use.
         GL.createCapabilities();
 
+        // Specify OpenGL viewport size
+        glViewport(0, 0, this.width, this.height);
+
+        // Enable v-sync
+        glfwSwapInterval(1);
+
+        // Make the window visible
+        glfwShowWindow(glfwWindow);
 
         Window.changeScene(0);
     }
@@ -129,8 +140,9 @@ public class Window {
         float endTime;
         float dt = -1.0f;
 
+        // Render loop
         while (!glfwWindowShouldClose(glfwWindow)) {
-            // Poll events
+            // Checks if any events are triggered
             glfwPollEvents();
 
             // Set the clear color
@@ -142,7 +154,7 @@ public class Window {
                 currentScene.update(dt);
             }
 
-            // Swap buffers
+            // Swap the color buffers
             glfwSwapBuffers(glfwWindow);
 
             // Time
