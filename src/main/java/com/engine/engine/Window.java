@@ -8,7 +8,7 @@ import org.lwjgl.system.*;
 import com.engine.engine.listeners.DisplayListener;
 import com.engine.engine.listeners.KeyListener;
 import com.engine.engine.listeners.MouseListener;
-import com.engine.engine.utils.Time;
+import com.engine.utils.Time;
 
 import java.nio.*;
 

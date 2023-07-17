@@ -71,7 +71,7 @@ public class WorldEditorScene extends Scene {
             assert false : "";
         }
 
-        // First load and complie the fragment shader
+        // First load and compile the fragment shader
         fragmentID = glCreateShader(GL_FRAGMENT_SHADER);
         // Attach shader src to the shader object & compile
         glShaderSource(fragmentID, fragmentShaderSrc);
