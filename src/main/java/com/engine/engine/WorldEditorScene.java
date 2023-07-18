@@ -5,6 +5,7 @@ import static org.lwjgl.opengl.GL33.*;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
+import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 
 import com.engine.engine.renderer.Shaders;
@@ -16,10 +17,10 @@ public class WorldEditorScene extends Scene {
 
     private float[] vertexArray = {
             // pos // color
-            0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, // Bottom right
-            -0.5f, 0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, // Top left
-            -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, // Bottom left
-            0.5f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, // Top right
+            100.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, // Bottom right
+            0.5f, 100.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, // Top left
+            0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, // Bottom left
+            100.5f, 100.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, // Top right
     };
 
     // Must be in counter-clockwise order
@@ -34,6 +35,7 @@ public class WorldEditorScene extends Scene {
 
     @Override
     public void init() {
+        this.camera = new Camera(new Vector2f());
         defaultShader = new Shaders("src/main/assets/shaders/default.glsl");
         defaultShader.compile();
 
@@ -73,8 +75,13 @@ public class WorldEditorScene extends Scene {
 
     @Override
     public void update(float dt) {
+        camera.position.x -= dt * 50.0f;
+        camera.position.y -= dt * 50.0f;
         // System.out.println("" + (1.0f / dt) + " FPS");
         defaultShader.use();
+        defaultShader.uploadMat4f("uProjectionMatrix", camera.getProjectionMatrix());
+        defaultShader.uploadMat4f("uViewMatrix", camera.getViewMatrix());
+
         // Bind the VAO
         glBindVertexArray(vaoID);
 

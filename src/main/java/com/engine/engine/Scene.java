@@ -1,13 +1,11 @@
 package com.engine.engine;
 
 public abstract class Scene {
-    public Scene() {
+    protected Camera camera;
 
-    }
+    public Scene() {}
 
     public abstract void update(float dt);
 
-    public void init() {
-
-    }
+    public void init() {}
 }
