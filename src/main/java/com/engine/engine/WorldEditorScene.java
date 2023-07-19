@@ -9,6 +9,7 @@ import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 
 import com.engine.engine.renderer.Shaders;
+import com.engine.utils.Time;
 
 public class WorldEditorScene extends Scene {
     private int vaoID, vboID, eboID;
@@ -79,8 +80,9 @@ public class WorldEditorScene extends Scene {
         camera.position.y -= dt * 50.0f;
         // System.out.println("" + (1.0f / dt) + " FPS");
         defaultShader.use();
-        defaultShader.uploadMat4f("uProjectionMatrix", camera.getProjectionMatrix());
+                defaultShader.uploadMat4f("uProjectionMatrix", camera.getProjectionMatrix());
         defaultShader.uploadMat4f("uViewMatrix", camera.getViewMatrix());
+        defaultShader.uploadFloat("uTime", Time.getTime());
 
         // Bind the VAO
         glBindVertexArray(vaoID);
