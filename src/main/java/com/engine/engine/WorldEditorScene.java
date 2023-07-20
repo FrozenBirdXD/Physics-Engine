@@ -9,19 +9,20 @@ import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 
 import com.engine.engine.renderer.Shaders;
+import com.engine.engine.renderer.Texture;
 import com.engine.utils.Time;
 
 public class WorldEditorScene extends Scene {
     private int vaoID, vboID, eboID;
-
+    private Texture textureTest;
     private Shaders defaultShader;
 
     private float[] vertexArray = {
-            // pos // color
-            100.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, // Bottom right
-            0.5f, 100.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, // Top left
-            0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, // Bottom left
-            100.5f, 100.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, // Top right
+            // pos // color // uv coordinates
+            100.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1, 0, // Bottom right
+            0.5f, 100.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0, 1, // Top left
+            0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f, 0, 0, // Bottom left
+            100.5f, 100.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1, 1, // Top right
     };
 
     // Must be in counter-clockwise order
@@ -39,6 +40,8 @@ public class WorldEditorScene extends Scene {
         this.camera = new Camera(new Vector2f());
         defaultShader = new Shaders("src/main/assets/shaders/default.glsl");
         defaultShader.compile();
+
+        this.textureTest = new Texture("src/main/assets/images/airplane.png");
 
         // Create VAO, VBO, and EBO buffer objects and sent to GPU
         vaoID = glGenVertexArrays();
@@ -64,14 +67,18 @@ public class WorldEditorScene extends Scene {
         // Add the vertex attribute pointers
         int positionsSize = 3;
         int colorsSize = 4;
-        int floatSizeInByte = 4;
-        int vertexSizeInBytes = (positionsSize + colorsSize) * floatSizeInByte;
+        int uvCoordSize = 2;
+        int vertexSizeInBytes = (positionsSize + colorsSize + uvCoordSize) * Float.BYTES;
 
         glVertexAttribPointer(0, positionsSize, GL_FLOAT, false, vertexSizeInBytes, 0);
         glEnableVertexAttribArray(0);
 
-        glVertexAttribPointer(1, colorsSize, GL_FLOAT, false, vertexSizeInBytes, positionsSize * floatSizeInByte);
+        glVertexAttribPointer(1, colorsSize, GL_FLOAT, false, vertexSizeInBytes, positionsSize * Float.BYTES);
         glEnableVertexAttribArray(1);
+
+        glVertexAttribPointer(2, uvCoordSize, GL_FLOAT, false, vertexSizeInBytes,
+                (positionsSize + colorsSize) * Float.BYTES);
+        glEnableVertexAttribArray(2);
     }
 
     @Override
@@ -80,7 +87,12 @@ public class WorldEditorScene extends Scene {
         camera.position.y -= dt * 50.0f;
         // System.out.println("" + (1.0f / dt) + " FPS");
         defaultShader.use();
-                defaultShader.uploadMat4f("uProjectionMatrix", camera.getProjectionMatrix());
+
+        glActiveTexture(GL_TEXTURE0);
+        defaultShader.uploadTexture("TEX_SAMPLER", 0);
+        textureTest.bind();
+
+        defaultShader.uploadMat4f("uProjectionMatrix", camera.getProjectionMatrix());
         defaultShader.uploadMat4f("uViewMatrix", camera.getViewMatrix());
         defaultShader.uploadFloat("uTime", Time.getTime());
 
