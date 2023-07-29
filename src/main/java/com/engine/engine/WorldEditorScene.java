@@ -8,6 +8,8 @@ import java.nio.IntBuffer;
 import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 
+import com.engine.engine.components.FontRenderer;
+import com.engine.engine.components.SpriteRenderer;
 import com.engine.engine.renderer.Shaders;
 import com.engine.engine.renderer.Texture;
 import com.engine.utils.Time;
@@ -31,12 +33,21 @@ public class WorldEditorScene extends Scene {
             0, 1, 2 // Bottom left triangle
     };
 
+    GameObject object;
+    private boolean firstTime = false;
+
     public WorldEditorScene() {
 
     }
 
     @Override
     public void init() {
+        System.out.println("create object");
+        this.object = new GameObject("test");
+        this.object.addComponent(new SpriteRenderer());
+        this.object.addComponent(new FontRenderer());
+        this.addGameObjectToScene(this.object);
+
         this.camera = new Camera(new Vector2f());
         defaultShader = new Shaders("src/main/assets/shaders/default.glsl");
         defaultShader.compile();
@@ -111,5 +122,17 @@ public class WorldEditorScene extends Scene {
 
         glBindVertexArray(0);
         defaultShader.detach();
+
+        if (!firstTime) {
+            System.out.println("create object");
+            GameObject object = new GameObject("game test");
+            object.addComponent(new SpriteRenderer());
+            this.addGameObjectToScene(object);
+            firstTime = true;
+        }
+
+        for (GameObject object : this.gameObjects) {
+            object.update(dt);
+        }
     }
 }
