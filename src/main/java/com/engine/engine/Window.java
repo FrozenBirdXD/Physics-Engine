@@ -106,7 +106,7 @@ public class Window {
         }
 
         // Callbacks after window is created
-        // Set mouse callbacks
+        // Set mouse callbacks -> glfw calls this function when there is an event
         glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback); // forward position function to the
                                                                                // 'mousePosCallback'
         glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
@@ -135,6 +135,7 @@ public class Window {
         // Make the window visible
         glfwShowWindow(glfwWindow);
 
+        // Set initial scene
         Window.changeScene(0);
     }
 
