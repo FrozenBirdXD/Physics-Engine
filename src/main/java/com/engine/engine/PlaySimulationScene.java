@@ -27,7 +27,7 @@ public class PlaySimulationScene extends Scene {
             Window.get().g -= dt * 5.0f;
             Window.get().b -= dt * 5.0f;
         } else if (changingScene) {
-            Window.changeScene(0);
+            Window.setScene(0);
         }
     }
 }
