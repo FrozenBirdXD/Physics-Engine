@@ -41,45 +41,13 @@ public class Window {
         a = 1;
     }
 
+    // singleton
     public static Window get() {
         if (Window.window == null) {
             Window.window = new Window();
         }
 
         return Window.window;
-    }
-
-    public static void changeScene(int newScene) {
-        switch (newScene) {
-            case 0:
-                currentScene = new WorldEditorScene();
-                currentScene.init();
-                currentScene.start();
-                break;
-            case 1:
-                currentScene = new PlaySimulationScene();
-                currentScene.init();
-                currentScene.start();
-                break;
-            default:
-                assert false : "Unknown scene '" + newScene + "'";
-                break;
-        }
-    }
-
-    public void run() {
-        System.out.println("Running LWJGL version " + Version.getVersion());
-
-        init();
-        loop();
-
-        // Free the window callbacks and destroy the window
-        glfwFreeCallbacks(glfwWindow);
-        glfwDestroyWindow(glfwWindow);
-
-        // Terminate GLFW and free the error callback
-        glfwTerminate();
-        glfwSetErrorCallback(null).free();
     }
 
     public void init() {
@@ -131,12 +99,46 @@ public class Window {
 
         // Enable v-sync
         glfwSwapInterval(1);
+    }
+    
+    public static void setScene(int newScene) {
+        switch (newScene) {
+            case 0:
+                currentScene = new WorldEditorScene();
+                currentScene.init();
+                currentScene.start();
+                break;
+            case 1:
+                currentScene = new PlaySimulationScene();
+                currentScene.init();
+                currentScene.start();
+                break;
+            default:
+                assert false : "Unknown scene '" + newScene + "'";
+                break;
+        }
+    }
+
+    public void show() {
+        // init();
+
+        System.out.println("Running LWJGL version " + Version.getVersion());
 
         // Make the window visible
         glfwShowWindow(glfwWindow);
 
-        // Set initial scene
-        Window.changeScene(0);
+        loop();
+        close();
+    }
+
+    public void close() {
+        // Free the window callbacks and destroy the window
+        glfwFreeCallbacks(glfwWindow);
+        glfwDestroyWindow(glfwWindow);
+
+        // Terminate GLFW and free the error callback
+        glfwTerminate();
+        glfwSetErrorCallback(null).free();
     }
 
     public void loop() {
@@ -178,5 +180,9 @@ public class Window {
 
     public void setHeigth(int height) {
         this.height = height;
+    }
+
+    public void setResizable(boolean resizable) {
+        this.resizable = resizable;
     }
 }
