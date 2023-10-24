@@ -119,6 +119,10 @@ public class Window {
         }
     }
 
+    public static Scene getScene() {
+        return get().currentScene;
+    }
+
     public void show() {
         // init();
 

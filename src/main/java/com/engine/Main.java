@@ -14,6 +14,5 @@ public class Main {
         
         Window.setScene(0);
         window.show();
-
     }
 }
