@@ -11,6 +11,9 @@ public class SpriteRenderer extends Component {
         this.color = color;
     }
 
+    public SpriteRenderer() {
+    }
+
     @Override
     public void update(float dt) {
     }
