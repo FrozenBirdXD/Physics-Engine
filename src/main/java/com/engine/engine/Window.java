@@ -101,7 +101,7 @@ public class Window {
         glfwSwapInterval(1);
     }
     
-    public static void setScene(int newScene) {
+    public void setScene(int newScene) {
         switch (newScene) {
             case 0:
                 currentScene = new WorldEditorScene();
@@ -119,7 +119,7 @@ public class Window {
         }
     }
 
-    public static Scene getScene() {
+    public Scene getScene() {
         return get().currentScene;
     }
 

@@ -12,7 +12,7 @@ public class Main {
         
         window.init();
         
-        Window.setScene(0);
+        window.setScene(0);
         window.show();
     }
 }
