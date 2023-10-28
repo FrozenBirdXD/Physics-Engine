@@ -2,13 +2,16 @@ package com.engine.engine.renderer;
 
 import static org.lwjgl.opengl.GL33.*;
 
+import org.joml.Vector4f;
+
+import com.engine.engine.Window;
 import com.engine.engine.components.SpriteRenderer;
 
 public class RenderBatch {
     // Vertex
     // =====
-    // Pos Color
-    // float, float, float, float, float, float
+    // Pos              Color
+    // float, float,    float, float, float, float
 
     private Shaders shader;
     private SpriteRenderer[] sprites;
@@ -29,7 +32,7 @@ public class RenderBatch {
 
     // maxBatchSize is the max amount of sprites
     public RenderBatch(int maxBatchSize) {
-        shader = new Shaders("assets/shaders/default.glsl");
+        shader = new Shaders("src/main/assets/shaders/default.glsl");
         shader.compile();
         this.sprites = new SpriteRenderer[maxBatchSize];
         this.maxBatchSize = maxBatchSize;
@@ -68,7 +71,17 @@ public class RenderBatch {
     }
 
     public void addSprite(SpriteRenderer spriteRenderer) {
+        // Add renderobject to next space in array
+        int index = numSprites;
+        sprites[index] = spriteRenderer;
+        numSprites++;
 
+        // Add properties to local vertices array
+        loadVertexProperties(index);
+
+        if (numSprites >= maxBatchSize) {
+            hasRoom = false;
+        }
     }
 
     private int[] generateIndices() {
@@ -83,23 +96,82 @@ public class RenderBatch {
     private void loadElementIndices(int[] elements, int index) {
         int offsetArrayIndex = 6 * index;
         int offset = 4 * index;
-        // 3, 2, 0, 0, 2, 1         7, 6, 4, 4, 6, 5
+        // 3, 2, 0, 0, 2, 1     7, 6, 4, 4, 6, 5
         // Create triangle 1
         elements[offsetArrayIndex] = offset + 3;
-        elements[offsetArrayIndex + 1] = offset + 2; 
-        elements[offsetArrayIndex + 2] = offset + 0; 
-        
+        elements[offsetArrayIndex + 1] = offset + 2;
+        elements[offsetArrayIndex + 2] = offset + 0;
+
         // Create triangle 2
-        elements[offsetArrayIndex + 3] = offset + 0; 
-        elements[offsetArrayIndex + 4] = offset + 2; 
-        elements[offsetArrayIndex + 5] = offset + 1; 
+        elements[offsetArrayIndex + 3] = offset + 0;
+        elements[offsetArrayIndex + 4] = offset + 2;
+        elements[offsetArrayIndex + 5] = offset + 1;
     }
 
+    // When we have data in vertices
     public void render() {
+        // Rebuffer all data every frame - temp
+        glBindBuffer(GL_ARRAY_BUFFER, vboID);
+        // Buffer data into the vbo given above
+        // Upload all the vertices starting from 0
+        glBufferSubData(GL_ARRAY_BUFFER, 0, vertices);
 
+        // Use shader
+        shader.use();
+        shader.uploadMat4f("uProjectionMatrix", Window.get().getScene().getCamera().getProjectionMatrix());
+        shader.uploadMat4f("uViewMatrix", Window.get().getScene().getCamera().getViewMatrix());
+
+        glBindVertexArray(vaoID);
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+
+        glDrawElements(GL_TRIANGLES, numSprites * 6, GL_UNSIGNED_INT, 0);
+
+        glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
+        glBindVertexArray(0);
+
+        shader.detach();
     }
 
     private void loadVertexProperties(int index) {
+        SpriteRenderer sprite = sprites[index];
 
+        // Find offset in array (4 vertices per sprite)
+        int offset = index * 4 * VERTEX_SIZE;
+        // float, float, float, float, float, float, flaot...
+        Vector4f color = sprite.getColor();
+
+        // Add vertices with correct properties
+        float xAdd = 1.0f;
+        float yAdd = 1.0f;
+        // *4         *1
+        // *(0,0)3    *2
+
+        for (int i = 0; i < 4; i++) {
+            if (i == 1) {
+                yAdd = 0.0f;
+            } else if(i == 2) {
+                xAdd = 0.0f;
+            } else if (i == 3) {
+                yAdd = 1.0f;
+            }
+
+            // Load position
+            vertices[offset] = sprite.gameObject.transform.position.x + (xAdd * sprite.gameObject.transform.scale.x);
+            vertices[offset + 1] = sprite.gameObject.transform.position.y + (yAdd * sprite.gameObject.transform.scale.y);
+
+            // Load color
+            vertices[offset + 2] = color.x;
+            vertices[offset + 3] = color.y;
+            vertices[offset + 4] = color.z;
+            vertices[offset + 5] = color.w;
+
+            offset += VERTEX_SIZE;
+        }
+    }
+
+    public boolean hasRoom() {
+        return this.hasRoom;
     }
 }
