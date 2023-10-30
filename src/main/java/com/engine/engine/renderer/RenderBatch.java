@@ -6,6 +6,7 @@ import org.joml.Vector4f;
 
 import com.engine.engine.Window;
 import com.engine.engine.components.SpriteRenderer;
+import com.engine.utils.AssetPool;
 
 public class RenderBatch {
     // Vertex
@@ -32,8 +33,7 @@ public class RenderBatch {
 
     // maxBatchSize is the max amount of sprites
     public RenderBatch(int maxBatchSize) {
-        shader = new Shaders("src/main/assets/shaders/default.glsl");
-        shader.compile();
+        this.shader = AssetPool.getShader("src/main/assets/shaders/default.glsl");
         this.sprites = new SpriteRenderer[maxBatchSize];
         this.maxBatchSize = maxBatchSize;
 
