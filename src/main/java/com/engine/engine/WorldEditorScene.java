@@ -6,8 +6,6 @@ import org.joml.Vector4f;
 import com.engine.engine.components.SpriteRenderer;
 
 public class WorldEditorScene extends Scene {
-    private boolean firstTime;
-
     public WorldEditorScene() {
 
     }
@@ -42,12 +40,6 @@ public class WorldEditorScene extends Scene {
     @Override
     public void update(float dt) {
         System.out.println("" + (1.0f / dt) + " FPS");
-
-        // if (!firstTime) {
-        // System.out.println("create object");
-        // GameObject object = new GameObject("game test");
-        // firstTime = true;
-        // }
 
         for (GameObject object : this.gameObjects) {
             object.update(dt);

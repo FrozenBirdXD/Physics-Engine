@@ -35,9 +35,9 @@ public class Window {
         this.height = 1080;
         this.title = "Engine";
         this.resizable = true;
-        r = 1;
-        b = 1;
-        g = 1;
+        r = 0;
+        b = 0;
+        g = 0;
         a = 1;
     }
 
@@ -100,28 +100,6 @@ public class Window {
         // Enable v-sync
         glfwSwapInterval(1);
     }
-    
-    public void setScene(int newScene) {
-        switch (newScene) {
-            case 0:
-                currentScene = new WorldEditorScene();
-                currentScene.init();
-                currentScene.start();
-                break;
-            case 1:
-                currentScene = new PlaySimulationScene();
-                currentScene.init();
-                currentScene.start();
-                break;
-            default:
-                assert false : "Unknown scene '" + newScene + "'";
-                break;
-        }
-    }
-
-    public Scene getScene() {
-        return get().currentScene;
-    }
 
     public void show() {
         // init();
@@ -172,6 +150,28 @@ public class Window {
             dt = endTime - beginTime;
             beginTime = endTime;
         }
+    }
+
+    public void setScene(int newScene) {
+        switch (newScene) {
+            case 0:
+                currentScene = new WorldEditorScene();
+                currentScene.init();
+                currentScene.start();
+                break;
+            case 1:
+                currentScene = new PlaySimulationScene();
+                currentScene.init();
+                currentScene.start();
+                break;
+            default:
+                assert false : "Unknown scene '" + newScene + "'";
+                break;
+        }
+    }
+
+    public Scene getScene() {
+        return get().currentScene;
     }
 
     public void setTitle(String title) {
