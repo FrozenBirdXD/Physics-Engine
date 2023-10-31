@@ -8,7 +8,6 @@ import org.lwjgl.system.*;
 import com.engine.engine.listeners.DisplayListener;
 import com.engine.engine.listeners.KeyListener;
 import com.engine.engine.listeners.MouseListener;
-import com.engine.utils.Time;
 
 import java.nio.*;
 
@@ -35,9 +34,9 @@ public class Window {
         this.height = 1080;
         this.title = "Engine";
         this.resizable = true;
-        r = 0;
-        b = 0;
-        g = 0;
+        r = 1;
+        b = 1;
+        g = 1;
         a = 1;
     }
 
@@ -124,7 +123,7 @@ public class Window {
     }
 
     public void loop() {
-        float beginTime = Time.getTime();
+        float beginTime = (float) glfwGetTime();
         float endTime;
         float dt = -1.0f;
 
@@ -146,7 +145,7 @@ public class Window {
             glfwSwapBuffers(glfwWindow);
 
             // Time
-            endTime = Time.getTime();
+            endTime = (float) glfwGetTime();
             dt = endTime - beginTime;
             beginTime = endTime;
         }
