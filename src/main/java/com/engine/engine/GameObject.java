@@ -63,4 +63,8 @@ public class GameObject {
             components.get(i).start();
         }
     }
+
+    public String getName() {
+        return this.name;
+    }
 }
