@@ -12,23 +12,23 @@ import static org.lwjgl.stb.STBImage.stbi_set_flip_vertically_on_load;
 
 public class Texture {
     private String filepath;
-    private int textureID;
+    private int textureId;
 
     public Texture(String filepath) {
         this.filepath = filepath;
 
         // Generate texture
-        textureID = glGenTextures();
-        glBindTexture(GL_TEXTURE_2D, textureID);
+        textureId = glGenTextures();
+        glBindTexture(GL_TEXTURE_2D, textureId);
 
         // Set texture parameters
         // Repeat image
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
         // Image stretch -> pixelate
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         // Image shrink -> pixelate
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
         IntBuffer width = BufferUtils.createIntBuffer(1);
         IntBuffer height = BufferUtils.createIntBuffer(1);
@@ -54,7 +54,7 @@ public class Texture {
     }
 
     public void bind() {
-        glBindTexture(GL_TEXTURE_2D, textureID);
+        glBindTexture(GL_TEXTURE_2D, textureId);
     }
 
     public void unbind() {
