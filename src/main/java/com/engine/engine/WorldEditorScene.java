@@ -16,26 +16,9 @@ public class WorldEditorScene extends Scene {
         // System.out.println("create object");
         this.camera = new Camera(new Vector2f(0, 0));
 
-        int xOffset = 10;
-        int yOffset = 10;
-
-        float totalWidth = (float) (600 - xOffset * 2);
-        float totalHeigth = (float) (300 - yOffset * 2);
-
-        float sizeX = totalWidth / 100.0f;
-        float sizeY = totalHeigth / 100.0f;
-
-        for (int x = 0; x < 100; x++) {
-            for (int y = 0; y < 100; y++) {
-                float xPos = xOffset + (x * sizeX);
-                float yPos = yOffset + (y * sizeY);
-
-                GameObject object = new GameObject("Object" + x + "" + y,
-                        new Transform(new Vector2f(xPos, yPos), new Vector2f(sizeX, sizeY)));
-                object.addComponent(new SpriteRenderer(new Vector4f(xPos / totalWidth, yPos / totalHeigth, 1, 1)));
-                this.addGameObjectToScene(object);
-            }
-        }
+        GameObject sandwich = new GameObject("sandwich", new Transform(new Vector2f(100, 100), new Vector2f(512, 512)));
+        sandwich.addComponent(new SpriteRenderer(AssetPool.getTexture("src/main/assets/images/sandwich.png")));
+        addGameObjectToScene(sandwich);
 
         loadResources();
     }

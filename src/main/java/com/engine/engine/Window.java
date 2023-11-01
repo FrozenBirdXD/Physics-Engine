@@ -34,9 +34,9 @@ public class Window {
         this.height = 1080;
         this.title = "Engine";
         this.resizable = true;
-        r = 1;
-        b = 1;
-        g = 1;
+        r = 0;
+        b = 0;
+        g = 0;
         a = 1;
     }
 
