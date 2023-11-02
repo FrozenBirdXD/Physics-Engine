@@ -24,11 +24,16 @@ public class Renderer {
     private void add(SpriteRenderer sprite) {
         boolean added = false;
         for (RenderBatch batch : batches) {
+            // fill until batch is full
             if (batch.hasRoom()) {
-                batch.addSprite(sprite);
-                added = true;
-                // add to first available batch
-                break;
+                Texture texture = sprite.getTexture();
+                // if texture is null or texture already in batch or batch has room
+                if (texture == null || batch.hasTexture(texture) || batch.hasTextureRoom()) {
+                    batch.addSprite(sprite);
+                    added = true;
+                    // add to first available batch
+                    break;
+                }
             }
         }
 
