@@ -3,6 +3,8 @@ package com.engine.engine.components;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joml.Vector2f;
+
 import com.engine.engine.renderer.Texture;
 
 public class Spritesheet {
@@ -20,6 +22,26 @@ public class Spritesheet {
             float rightX = (currentX + spriteWidth) / (float) texture.getWidth();
             float leftX = currentX / (float) texture.getWidth();
             float bottomY = currentY / (float) texture.getHeight();
+
+            Vector2f[] texCoords = {
+                    new Vector2f(rightX, topY),
+                    new Vector2f(rightX, bottomY),
+                    new Vector2f(leftX, bottomY),
+                    new Vector2f(leftX, topY),
+            };
+            Sprite sprite = new Sprite(this.texture, texCoords);
+            this.sprites.add(sprite);
+
+            // increment current x and y
+            currentX += spriteWidth + spacing;
+            if (currentX >= texture.getWidth()) {
+                currentX = 0;
+                currentY -= spriteHeigth + spacing;
+            }
         }
+    }
+
+    public Sprite getSprite(int index) {
+        return sprites.get(index);
     }
 }
