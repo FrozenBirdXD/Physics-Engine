@@ -6,12 +6,14 @@ import java.util.Map;
 
 import javax.xml.transform.Templates;
 
+import com.engine.engine.components.Spritesheet;
 import com.engine.engine.renderer.Shaders;
 import com.engine.engine.renderer.Texture;
 
 public class AssetPool {
     private static Map<String, Shaders> shaders = new HashMap<>();
     private static Map<String, Texture> textures = new HashMap<>();
+    private static Map<String, Spritesheet> spritesheets = new HashMap<>();
 
     public static Shaders getShader(String filePath) {
         File file = new File(filePath);
@@ -35,5 +37,21 @@ public class AssetPool {
             AssetPool.textures.put(file.getAbsolutePath(), texture);
             return texture;
         }
+    }
+
+    public static void addSpritesheet(String filePath, Spritesheet spritesheet) {
+        File file = new File(filePath);
+        if (!AssetPool.spritesheets.containsKey(file.getAbsolutePath())) {
+            AssetPool.spritesheets.put(file.getAbsolutePath(), spritesheet);
+        }
+    }
+
+    public static Spritesheet getSpritesheet(String filePath) {
+        File file = new File(filePath);
+        if (!AssetPool.spritesheets.containsKey(file.getAbsolutePath())) {
+            assert false : "Error: Tried to access spritesheet '" + filePath + "' and it's not in the AssetPool";
+        }
+        // default spritesheet
+        return AssetPool.spritesheets.getOrDefault(file.getAbsolutePath(), null);
     }
 }
