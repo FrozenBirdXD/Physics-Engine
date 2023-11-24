@@ -29,11 +29,11 @@ public class GameObject {
                     return componentClass.cast(c);
                 } catch (ClassCastException exception) {
                     exception.printStackTrace();
-                    assert false: "Error: Casting component.";
+                    assert false : "Error: Casting component.";
                 }
-            } 
+            }
         }
-        
+
         return null;
     }
 
@@ -46,7 +46,7 @@ public class GameObject {
             }
         }
     }
-    
+
     public void addComponent(Component c) {
         this.components.add(c);
         c.gameObject = this;

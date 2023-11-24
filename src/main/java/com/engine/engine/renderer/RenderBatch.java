@@ -24,7 +24,7 @@ public class RenderBatch {
     private boolean hasRoom;
     private float[] vertices;
     private List<Texture> textures;
-    private int[] texSlots = {0, 1, 2, 3, 4, 5, 6, 7};
+    private int[] texSlots = { 0, 1, 2, 3, 4, 5, 6, 7 };
 
     private int vaoId, vboId;
     private int maxBatchSize;
@@ -91,7 +91,7 @@ public class RenderBatch {
         int index = numSprites;
         sprites[index] = spriteRenderer;
         numSprites++;
-        
+
         // if sprite has texture
         if (spriteRenderer.getTexture() != null) {
             // if texture is not already in list (because other sprite already added it)
@@ -134,11 +134,23 @@ public class RenderBatch {
 
     // When we have data in vertices
     public void render() {
-        // Rebuffer all data every frame - temp
-        glBindBuffer(GL_ARRAY_BUFFER, vboId);
-        // Buffer data into the vbo given above
-        // Upload all the vertices starting from 0
-        glBufferSubData(GL_ARRAY_BUFFER, 0, vertices);
+        boolean rebufferData = false;
+        for (int i = 0; i < numSprites; i++) {
+            SpriteRenderer renSpr = sprites[i];
+            if (renSpr.isDirty()) {
+                loadVertexProperties(i);
+                renSpr.setClean();
+                rebufferData = true;
+            }
+        }
+
+        if (rebufferData) {
+            // Rebuffer all data if needed
+            glBindBuffer(GL_ARRAY_BUFFER, vboId);
+            // Buffer data into the vbo given above
+            // Upload all the vertices starting from 0
+            glBufferSubData(GL_ARRAY_BUFFER, 0, vertices);
+        }
 
         // Use shader
         shader.use();
@@ -172,6 +184,7 @@ public class RenderBatch {
     }
 
     private void loadVertexProperties(int index) {
+        // Gets current sprite
         SpriteRenderer sprite = sprites[index];
 
         // Find offset in array (4 vertices per sprite)
