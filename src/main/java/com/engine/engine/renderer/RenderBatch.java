@@ -12,7 +12,7 @@ import com.engine.engine.Window;
 import com.engine.engine.components.SpriteRenderer;
 import com.engine.utils.AssetPool;
 
-public class RenderBatch {
+public class RenderBatch implements Comparable<RenderBatch> {
     // Vertex
     // =====
     // Pos ----------- Color ----------------------- TextureCoords - TextureID
@@ -25,6 +25,7 @@ public class RenderBatch {
     private float[] vertices;
     private List<Texture> textures;
     private int[] texSlots = { 0, 1, 2, 3, 4, 5, 6, 7 };
+    private int zIndex;
 
     private int vaoId, vboId;
     private int maxBatchSize;
@@ -42,7 +43,8 @@ public class RenderBatch {
     private final int VERTEX_SIZE_BYTES = VERTEX_SIZE * Float.BYTES;
 
     // maxBatchSize is the max amount of sprites
-    public RenderBatch(int maxBatchSize) {
+    public RenderBatch(int maxBatchSize, int zIndex) {
+        this.zIndex = zIndex;
         this.shader = AssetPool.getShader("src/main/assets/shaders/default.glsl");
         this.sprites = new SpriteRenderer[maxBatchSize];
         this.maxBatchSize = maxBatchSize;
@@ -249,5 +251,17 @@ public class RenderBatch {
 
     public boolean hasTexture(Texture texture) {
         return this.textures.contains(texture);
+    }
+
+    public int getZIndex() {
+        return this.zIndex;
+    }
+
+    @Override
+    public int compareTo(RenderBatch o) {
+        // if left is less than right -> -1
+        // if same -> 0
+        // if left larger than right -> 1
+        return Integer.compare(this.zIndex, o.getZIndex());
     }
 }
