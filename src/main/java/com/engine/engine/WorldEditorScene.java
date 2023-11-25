@@ -6,6 +6,7 @@ import org.joml.Vector4f;
 import com.engine.engine.components.Sprite;
 import com.engine.engine.components.SpriteRenderer;
 import com.engine.engine.components.Spritesheet;
+import com.engine.engine.renderer.Texture;
 import com.engine.utils.AssetPool;
 
 public class WorldEditorScene extends Scene {
@@ -26,19 +27,20 @@ public class WorldEditorScene extends Scene {
 
         sprites = AssetPool.getSpritesheet("src/main/assets/spritesheets/spritesheet_16x16.png");
 
-        sandwich = new GameObject("sandwich", new Transform(new Vector2f(100, 100), new Vector2f(300, 300)));
+        sandwich = new GameObject("sandwich", new Transform(new Vector2f(100, 100), new Vector2f(300, 300)), 2);
         sandwich.addComponent(
                 new SpriteRenderer(sprites.getSprite(58)));
-        // GameObject sandwich1 = new GameObject("sandwich1",
-        // new Transform(new Vector2f(400, 100), new Vector2f(300, 300)));
-        // sandwich1.addComponent(
-        // new SpriteRenderer(sprites.getSprite(85)));
+        GameObject sandwich1 = new GameObject("sandwich1",
+                new Transform(new Vector2f(400, 100), new Vector2f(300, 300)), 1);
+        sandwich1.addComponent(
+                new SpriteRenderer(sprites.getSprite(85)));
         // GameObject sandwich2 = new GameObject("sandwich2",
         // new Transform(new Vector2f(700, 100), new Vector2f(300, 300)));
         // sandwich2.addComponent(
-        // new SpriteRenderer(sprites.getSprite(66)));
+        // new SpriteRenderer(new Sprite(new
+        // Texture("src/main/assets/images/sandwich.png"))));
         addGameObjectToScene(sandwich);
-        // addGameObjectToScene(sandwich1);
+        addGameObjectToScene(sandwich1);
         // addGameObjectToScene(sandwich2);
     }
 
