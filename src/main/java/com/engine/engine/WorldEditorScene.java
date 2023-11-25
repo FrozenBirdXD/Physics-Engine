@@ -56,9 +56,11 @@ public class WorldEditorScene extends Scene {
     private int index = 0;
     private float spriteFlipTime = 0.2f;
     private float spriteFlipLeft = 0.0f;
+    private float objectSpeed = 1.0f;
 
     @Override
     public void update(float dt) {
+        // switch between the textures
         spriteFlipLeft -= dt * 0.5;
         if (spriteFlipLeft <= 0.0) {
             spriteFlipLeft = spriteFlipTime;
@@ -68,12 +70,15 @@ public class WorldEditorScene extends Scene {
             }
             sandwich.getComponent(SpriteRenderer.class).setSprite(sprites.getSprite(index));
         }
-        // System.out.println("" + (1.0f / dt) + " FPS");
 
-        if (sandwich.transform.position.x + 1 > 700) {
-            sandwich.transform.position.x -= 700;
+        // Bounce left and right
+        sandwich.transform.position.x += objectSpeed;
+
+        if (sandwich.transform.position.x > 700) {
+            objectSpeed *= -1;
+        } else if (sandwich.transform.position.x < 0) {
+            objectSpeed *= -1;
         }
-        sandwich.transform.position.x += 1;
 
         for (GameObject object : this.gameObjects) {
             object.update(dt);
