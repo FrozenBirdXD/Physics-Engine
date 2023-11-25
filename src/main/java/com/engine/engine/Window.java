@@ -34,9 +34,9 @@ public class Window {
         this.height = 1440;
         this.title = "Engine";
         this.resizable = true;
-        r = 0;
-        b = 0;
-        g = 0;
+        r = 1;
+        b = 1;
+        g = 1;
         a = 1;
     }
 
@@ -92,6 +92,11 @@ public class Window {
         // creates the GLCapabilities instance and makes the OpenGL
         // bindings available for use.
         GL.createCapabilities();
+
+        // Enable alpha value blending
+        glEnable(GL_BLEND);
+        // Blending Function with source and destination value
+        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
         // Specify OpenGL viewport size
         glViewport(0, 0, this.width, this.height);
