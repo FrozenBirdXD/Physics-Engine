@@ -8,10 +8,9 @@ public class Main {
         Window window = Window.get();
 
         window.setTitle("hi");
-        window.setResizable(false);
-        
+
         window.init();
-        
+
         window.setScene(0);
         window.show();
     }
