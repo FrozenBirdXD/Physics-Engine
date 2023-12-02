@@ -23,6 +23,8 @@ public class Window {
     private boolean resizable;
     private long glfwWindow;
 
+    private ImGuiLayer imGuiLayer;
+
     public float r, g, b, a;
     private boolean fadeToBlack = false;
 
@@ -31,7 +33,9 @@ public class Window {
 
     private Window() {
         this.width = 2560;
+        this.width = 1920;
         this.height = 1440;
+        this.height = 1080;
         this.title = "Engine";
         this.resizable = true;
         r = 1;
@@ -64,7 +68,7 @@ public class Window {
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
         glfwWindowHint(GLFW_RESIZABLE, resizable ? GLFW_TRUE : GLFW_FALSE); // resizeability
-        glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE); // the window will be maximized
+        glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE); // the window will be maximized
 
         // Create the window
         glfwWindow = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
@@ -83,6 +87,10 @@ public class Window {
         glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
 
         glfwSetFramebufferSizeCallback(glfwWindow, DisplayListener::framebufferSizeCallback);
+        glfwSetWindowSizeCallback(glfwWindow, (win, newWidth, newHeight) -> {
+            get().setWidth(newWidth);
+            get().setHeigth(newHeight);
+        });
 
         // Make the OpenGL context current
         glfwMakeContextCurrent(glfwWindow);
@@ -97,6 +105,10 @@ public class Window {
         glEnable(GL_BLEND);
         // Blending Function with source and destination value
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
+        // Initialize imGui
+        this.imGuiLayer = new ImGuiLayer(glfwWindow);
+        this.imGuiLayer.initImGui();
 
         // Specify OpenGL viewport size
         glViewport(0, 0, this.width, this.height);
@@ -146,6 +158,8 @@ public class Window {
                 currentScene.update(dt);
             }
 
+            this.imGuiLayer.update(dt);
+
             // Swap the color buffers
             glfwSwapBuffers(glfwWindow);
 
@@ -186,8 +200,16 @@ public class Window {
         this.width = width;
     }
 
+    public int getWidth() {
+        return this.width;
+    }
+
     public void setHeigth(int height) {
         this.height = height;
+    }
+
+    public int getHeight() {
+        return this.height;
     }
 
     public void setResizable(boolean resizable) {
