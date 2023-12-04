@@ -5,11 +5,15 @@ import java.util.List;
 
 import com.engine.engine.renderer.Renderer;
 
+import imgui.ImGui;
+
 public abstract class Scene {
     protected Renderer renderer;
     protected Camera camera;
     private boolean isRunning = false;
     protected List<GameObject> gameObjects = new ArrayList<>();
+    // Gameobject that we spectate = has the current focus
+    protected GameObject activeGameObject = null;
 
     public Scene() {
         this.renderer = new Renderer();
@@ -42,5 +46,20 @@ public abstract class Scene {
 
     public Camera getCamera() {
         return this.camera;
+    }
+
+    public void sceneImgui() {
+        if (activeGameObject != null) {
+            ImGui.begin("Inspector");
+            activeGameObject.imgui();
+            ImGui.end();
+        }
+
+        imgui();
+    }
+
+    // To create custom scene integreated Imguis
+    public void imgui() {
+
     }
 }
