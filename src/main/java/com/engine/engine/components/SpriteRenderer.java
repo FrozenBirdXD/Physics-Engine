@@ -30,6 +30,11 @@ public class SpriteRenderer extends Component {
     }
 
     @Override
+    public void imgui() {
+        
+    }
+
+    @Override
     public void update(float dt) {
         if (!this.lastTransform.equals(this.gameObject.transform)) {
             this.gameObject.transform.copy(this.lastTransform);
