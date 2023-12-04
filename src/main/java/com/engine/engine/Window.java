@@ -158,7 +158,7 @@ public class Window {
                 currentScene.update(dt);
             }
 
-            this.imGuiLayer.update(dt);
+            this.imGuiLayer.update(dt, currentScene);
 
             // Swap the color buffers
             glfwSwapBuffers(glfwWindow);

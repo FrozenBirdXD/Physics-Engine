@@ -9,6 +9,8 @@ import com.engine.engine.components.Spritesheet;
 import com.engine.engine.renderer.Texture;
 import com.engine.utils.AssetPool;
 
+import imgui.ImGui;
+
 public class WorldEditorScene extends Scene {
 
     private GameObject sandwich;
@@ -86,5 +88,12 @@ public class WorldEditorScene extends Scene {
 
         this.renderer.render();
 
+    }
+
+    @Override
+    public void imgui() {
+        ImGui.begin("Test window");
+        ImGui.text("test window");
+        ImGui.end();
     }
 }
