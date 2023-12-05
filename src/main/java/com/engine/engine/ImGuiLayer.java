@@ -192,7 +192,7 @@ public class ImGuiLayer {
 
         // Any Dear ImGui code SHOULD go between ImGui.newFrame()/ImGui.render() methods
         ImGui.newFrame();
-        currentScene.imgui();
+        currentScene.sceneImgui();
         ImGui.showDemoWindow();
         ImGui.render();
 
