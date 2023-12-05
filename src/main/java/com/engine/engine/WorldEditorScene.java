@@ -48,7 +48,7 @@ public class WorldEditorScene extends Scene {
         addGameObjectToScene(sandwich1);
         addGameObjectToScene(ob);
         this.activeGameObject = ob;
-        
+
         // addGameObjectToScene(sandwich2);
     }
 
@@ -71,21 +71,21 @@ public class WorldEditorScene extends Scene {
         // // switch between the textures
         // spriteFlipLeft -= dt * 0.5;
         // if (spriteFlipLeft <= 0.0) {
-        //     spriteFlipLeft = spriteFlipTime;
-        //     index++;
-        //     if (index > 200) {
-        //         index = 0;
-        //     }
-        //     sandwich.getComponent(SpriteRenderer.class).setSprite(sprites.getSprite(index));
+        // spriteFlipLeft = spriteFlipTime;
+        // index++;
+        // if (index > 200) {
+        // index = 0;
+        // }
+        // sandwich.getComponent(SpriteRenderer.class).setSprite(sprites.getSprite(index));
         // }
 
         // // Bounce left and right
         // sandwich.transform.position.x += objectSpeed;
 
         // if (sandwich.transform.position.x > 700) {
-        //     objectSpeed *= -1;
+        // objectSpeed *= -1;
         // } else if (sandwich.transform.position.x < 0) {
-        //     objectSpeed *= -1;
+        // objectSpeed *= -1;
         // }
 
         for (GameObject object : this.gameObjects) {
@@ -101,5 +101,17 @@ public class WorldEditorScene extends Scene {
         ImGui.begin("Test window");
         ImGui.text("test window");
         ImGui.end();
+        float[] imguiPositionX = new float[] { this.activeGameObject.transform.position.x };
+        if (ImGui.sliderFloat("X Pos: ", imguiPositionX, 0, 1920)) {
+            this.activeGameObject.transform
+                    .setPosition(new Vector2f(imguiPositionX[0], this.activeGameObject.transform.position.y));
+        }
+
+        float[] imguiPositionY = new float[] { this.activeGameObject.transform.position.y };
+        if (ImGui.sliderFloat("Y Pos: ", imguiPositionY, 0, 1080)) {
+            this.activeGameObject.transform
+                    .setPosition(new Vector2f(this.activeGameObject.transform.position.x, imguiPositionY[0]));
+        }
+
     }
 }
