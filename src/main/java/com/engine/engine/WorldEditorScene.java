@@ -8,6 +8,8 @@ import com.engine.engine.components.SpriteRenderer;
 import com.engine.engine.components.Spritesheet;
 import com.engine.engine.renderer.Texture;
 import com.engine.utils.AssetPool;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import imgui.ImGui;
 
@@ -30,14 +32,16 @@ public class WorldEditorScene extends Scene {
         sprites = AssetPool.getSpritesheet("src/main/assets/spritesheets/spritesheet_16x16.png");
 
         sandwich = new GameObject("sandwich", new Transform(new Vector2f(100, 100), new Vector2f(300, 300)), 2);
-        sandwich.addComponent(
-                new SpriteRenderer(sprites.getSprite(58)));
-        GameObject sandwich1 = new GameObject("sandwich1",
-                new Transform(new Vector2f(400, 100), new Vector2f(300, 300)), 1);
-        sandwich1.addComponent(
-                new SpriteRenderer(sprites.getSprite(85)));
-        GameObject ob = new GameObject("lol", new Transform(new Vector2f(500, 500), new Vector2f(200, 200)), 3);
-        ob.addComponent(new SpriteRenderer(new Vector4f(0.4f, 1, 1, 1)));
+        SpriteRenderer spriteRenderer = new SpriteRenderer();
+        spriteRenderer.setSprite(sprites.getSprite(58));
+        sandwich.addComponent(spriteRenderer);
+        // GameObject sandwich1 = new GameObject("sandwich1",
+        // new Transform(new Vector2f(400, 100), new Vector2f(300, 300)), 1);
+        // sandwich1.addComponent(
+        // new SpriteRenderer(sprites.getSprite(85)));
+        // GameObject ob = new GameObject("lol", new Transform(new Vector2f(500, 500),
+        // new Vector2f(200, 200)), 3);
+        // ob.addComponent(new SpriteRenderer(new Vector4f(0.4f, 1, 1, 1)));
 
         // GameObject sandwich2 = new GameObject("sandwich2",
         // new Transform(new Vector2f(700, 100), new Vector2f(300, 300)));
@@ -45,11 +49,16 @@ public class WorldEditorScene extends Scene {
         // new SpriteRenderer(new Sprite(new
         // Texture("src/main/assets/images/sandwich.png"))));
         addGameObjectToScene(sandwich);
-        addGameObjectToScene(sandwich1);
-        addGameObjectToScene(ob);
-        this.activeGameObject = ob;
+        // addGameObjectToScene(sandwich1);
+        // addGameObjectToScene(ob);
+        this.activeGameObject = sandwich;
 
         // addGameObjectToScene(sandwich2);
+
+
+        
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        System.out.println(gson.toJson(1));
     }
 
     private void loadResources() {
@@ -68,25 +77,25 @@ public class WorldEditorScene extends Scene {
 
     @Override
     public void update(float dt) {
-        // // switch between the textures
-        // spriteFlipLeft -= dt * 0.5;
-        // if (spriteFlipLeft <= 0.0) {
-        // spriteFlipLeft = spriteFlipTime;
-        // index++;
-        // if (index > 200) {
-        // index = 0;
-        // }
-        // sandwich.getComponent(SpriteRenderer.class).setSprite(sprites.getSprite(index));
-        // }
+        // switch between the textures
+        spriteFlipLeft -= dt * 0.5;
+        if (spriteFlipLeft <= 0.0) {
+            spriteFlipLeft = spriteFlipTime;
+            index++;
+            if (index > 200) {
+                index = 0;
+            }
+            sandwich.getComponent(SpriteRenderer.class).setSprite(sprites.getSprite(index));
+        }
 
-        // // Bounce left and right
-        // sandwich.transform.position.x += objectSpeed;
+        // Bounce left and right
+        sandwich.transform.position.x += objectSpeed;
 
-        // if (sandwich.transform.position.x > 700) {
-        // objectSpeed *= -1;
-        // } else if (sandwich.transform.position.x < 0) {
-        // objectSpeed *= -1;
-        // }
+        if (sandwich.transform.position.x > 700) {
+            objectSpeed *= -1;
+        } else if (sandwich.transform.position.x < 0) {
+            objectSpeed *= -1;
+        }
 
         for (GameObject object : this.gameObjects) {
             object.update(dt);
