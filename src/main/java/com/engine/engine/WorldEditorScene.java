@@ -58,7 +58,7 @@ public class WorldEditorScene extends Scene {
 
         
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        System.out.println(gson.toJson(1));
+        System.out.println(gson.toJson(sandwich));
     }
 
     private void loadResources() {
