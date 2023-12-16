@@ -8,6 +8,7 @@ import com.engine.engine.components.SpriteRenderer;
 import com.engine.engine.components.Spritesheet;
 import com.engine.engine.renderer.Texture;
 import com.engine.engine.serialization.ComponentDeserializer;
+import com.engine.engine.serialization.GameObjectDeserializer;
 import com.engine.utils.AssetPool;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -26,6 +27,10 @@ public class WorldEditorScene extends Scene {
     @Override
     public void init() {
         loadResources();
+
+        if (loadedScene) {
+            return;
+        }
 
         // System.out.println("create object");
         this.camera = new Camera(new Vector2f(0, 0));
@@ -56,16 +61,7 @@ public class WorldEditorScene extends Scene {
 
         // addGameObjectToScene(sandwich2);
 
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .registerTypeAdapter(Component.class, new ComponentDeserializer())
-                .create();
-        String serialized = gson.toJson(sandwich);
-        System.out.println(serialized);
-
-        
-        GameObject ob = gson.fromJson(serialized, GameObject.class);
-        System.out.println(ob);
+       
 
     }
 
