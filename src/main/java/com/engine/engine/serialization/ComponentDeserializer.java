@@ -17,7 +17,16 @@ public class ComponentDeserializer implements JsonSerializer<Component>, JsonDes
     @Override
     public Component deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
             throws JsonParseException {
-        throw new UnsupportedOperationException("Unimplemented method 'deserialize'");
+        JsonObject jsonObject = json.getAsJsonObject();
+        // get serialized attributes
+        String type = jsonObject.get("type").getAsString();
+        JsonElement element = jsonObject.get("properties");
+
+        try {
+            return context.deserialize(element, Class.forName(type));
+        } catch (ClassNotFoundException e) {
+            throw new JsonParseException("Unknown element type" + type, e);
+        }
     }
 
     @Override
