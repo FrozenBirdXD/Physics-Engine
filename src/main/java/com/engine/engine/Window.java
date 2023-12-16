@@ -144,6 +144,8 @@ public class Window {
         float endTime;
         float dt = -1.0f;
 
+        // load from save files
+        currentScene.load();
         // Render loop
         while (!glfwWindowShouldClose(glfwWindow)) {
             // Checks if any events are triggered
@@ -168,6 +170,9 @@ public class Window {
             dt = endTime - beginTime;
             beginTime = endTime;
         }
+
+        // save scene to file
+        currentScene.saveAndExit();
     }
 
     public void setScene(int newScene) {
