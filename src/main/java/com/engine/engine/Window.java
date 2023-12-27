@@ -10,6 +10,8 @@ import com.engine.engine.listeners.KeyListener;
 import com.engine.engine.listeners.MouseListener;
 
 import java.nio.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -29,6 +31,9 @@ public class Window {
     private boolean fadeToBlack = false;
 
     private static Window window = null;
+    // private static volatile Window window;
+    // private static final ExecutorService executor =
+    // Executors.newCachedThreadPool();
     private static Scene currentScene;
 
     private Window() {
@@ -144,8 +149,6 @@ public class Window {
         float endTime;
         float dt = -1.0f;
 
-        // load from save files
-        currentScene.load();
         // Render loop
         while (!glfwWindowShouldClose(glfwWindow)) {
             // Checks if any events are triggered
@@ -179,18 +182,19 @@ public class Window {
         switch (newScene) {
             case 0:
                 currentScene = new WorldEditorScene();
-                currentScene.init();
-                currentScene.start();
                 break;
             case 1:
                 currentScene = new PlaySimulationScene();
-                currentScene.init();
-                currentScene.start();
                 break;
             default:
                 assert false : "Unknown scene '" + newScene + "'";
                 break;
         }
+
+        // load from save files
+        currentScene.load();
+        currentScene.init();
+        currentScene.start();
     }
 
     public Scene getScene() {
