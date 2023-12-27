@@ -1,6 +1,7 @@
 package com.engine.engine;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 import imgui.ImGui;
 
@@ -21,6 +22,12 @@ public abstract class Component {
             // get fields from subclass that is running this component
             Field[] fields = this.getClass().getDeclaredFields();
             for (Field f : fields) {
+                boolean isPrivate = Modifier.isPrivate(f.getModifiers());
+                // temporarily set to public
+                if (isPrivate) {
+                    f.setAccessible(true);
+                }
+
                 Class<?> type = f.getType();
                 Object value = f.get(this); // get value contained in that field with reflection
                 String name = f.getName();
@@ -30,8 +37,13 @@ public abstract class Component {
                     // because imgui expects ints as arrays
                     int[] imIntArray = { castedValue };
                     if (ImGui.dragInt(name + ": ", imIntArray)) {
+                        // if dragInt value changes, field is updated
                         f.set(this, imIntArray[0]);
                     }
+                }
+
+                if (isPrivate) {
+                    f.setAccessible(false);
                 }
             }
         } catch (IllegalAccessException e) {
