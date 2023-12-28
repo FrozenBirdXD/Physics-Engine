@@ -3,6 +3,8 @@ package com.engine.engine;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
+import org.joml.Vector3f;
+
 import imgui.ImGui;
 
 public abstract class Component {
@@ -39,6 +41,24 @@ public abstract class Component {
                     if (ImGui.dragInt(name + ": ", imIntArray)) {
                         // if dragInt value changes, field is updated
                         f.set(this, imIntArray[0]);
+                    }
+                } else if (type == float.class) {
+                    float castedValue = (float) value;
+                    float[] imFloatArray = { castedValue };
+                    if (ImGui.dragFloat(name + ": ", imFloatArray)) {
+                        f.set(this, imFloatArray[0]);
+                    }
+                } else if (type == boolean.class) {
+                    boolean castedValue = (boolean) value;
+                    if (ImGui.checkbox(name + ": ", castedValue)) {
+                        f.set(this, !castedValue);
+                    }
+                } else if (type == Vector3f.class) {
+                    Vector3f castedValue = (Vector3f) value;
+                    float[] imFloatArray = { castedValue.x, castedValue.y, castedValue.z };
+                    if (ImGui.dragFloat3(name + ": ", imFloatArray)) {
+                        // don't need to set extra since reference type var
+                        castedValue.set(imFloatArray[0], imFloatArray[1], imFloatArray[2]);
                     }
                 }
 
