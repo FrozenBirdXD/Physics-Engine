@@ -3,6 +3,7 @@ package com.engine.engine;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
+import com.engine.engine.components.RigidBody;
 import com.engine.engine.components.Sprite;
 import com.engine.engine.components.SpriteRenderer;
 import com.engine.engine.components.Spritesheet;
@@ -17,7 +18,6 @@ import imgui.ImGui;
 
 public class WorldEditorScene extends Scene {
 
-    private GameObject sandwich;
     private Spritesheet sprites;
 
     public WorldEditorScene() {
@@ -27,20 +27,24 @@ public class WorldEditorScene extends Scene {
     @Override
     public void init() {
         loadResources();
+        this.camera = new Camera(new Vector2f(0, 0));
 
         if (loadedScene) {
+            this.activeGameObject = gameObjects.get(0);
             return;
         }
+        GameObject sandwich;
 
         // System.out.println("create object");
-        this.camera = new Camera(new Vector2f(0, 0));
 
         sprites = AssetPool.getSpritesheet("src/main/assets/spritesheets/spritesheet_16x16.png");
 
         sandwich = new GameObject("sandwich", new Transform(new Vector2f(100, 100), new Vector2f(300, 300)), 2);
         SpriteRenderer spriteRenderer = new SpriteRenderer();
+        RigidBody rigidBody = new RigidBody();
         spriteRenderer.setSprite(sprites.getSprite(58));
         sandwich.addComponent(spriteRenderer);
+        sandwich.addComponent(rigidBody);
         // GameObject sandwich1 = new GameObject("sandwich1",
         // new Transform(new Vector2f(400, 100), new Vector2f(300, 300)), 1);
         // sandwich1.addComponent(
@@ -61,8 +65,6 @@ public class WorldEditorScene extends Scene {
 
         // addGameObjectToScene(sandwich2);
 
-       
-
     }
 
     private void loadResources() {
@@ -81,25 +83,25 @@ public class WorldEditorScene extends Scene {
 
     @Override
     public void update(float dt) {
-        // switch between the textures
-        spriteFlipLeft -= dt * 0.5;
-        if (spriteFlipLeft <= 0.0) {
-            spriteFlipLeft = spriteFlipTime;
-            index++;
-            if (index > 200) {
-                index = 0;
-            }
-            sandwich.getComponent(SpriteRenderer.class).setSprite(sprites.getSprite(index));
-        }
+        // // switch between the textures
+        // spriteFlipLeft -= dt * 0.5;
+        // if (spriteFlipLeft <= 0.0) {
+        // spriteFlipLeft = spriteFlipTime;
+        // index++;
+        // if (index > 200) {
+        // index = 0;
+        // }
+        // sandwich.getComponent(SpriteRenderer.class).setSprite(sprites.getSprite(index));
+        // }
 
-        // Bounce left and right
-        sandwich.transform.position.x += objectSpeed;
+        // // Bounce left and right
+        // sandwich.transform.position.x += objectSpeed;
 
-        if (sandwich.transform.position.x > 700) {
-            objectSpeed *= -1;
-        } else if (sandwich.transform.position.x < 0) {
-            objectSpeed *= -1;
-        }
+        // if (sandwich.transform.position.x > 700) {
+        // objectSpeed *= -1;
+        // } else if (sandwich.transform.position.x < 0) {
+        // objectSpeed *= -1;
+        // }
 
         for (GameObject object : this.gameObjects) {
             object.update(dt);
