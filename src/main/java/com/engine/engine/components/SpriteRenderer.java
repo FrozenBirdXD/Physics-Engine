@@ -14,7 +14,7 @@ public class SpriteRenderer extends Component {
     private Sprite sprite = new Sprite();
 
     // transient variables are not serialized
-    private transient boolean isDirty;
+    private transient boolean isDirty = true;
     private transient Transform lastTransform;
 
     // public SpriteRenderer(Vector4f color) {
