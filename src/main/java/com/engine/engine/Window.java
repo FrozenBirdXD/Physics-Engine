@@ -41,12 +41,14 @@ public class Window {
         this.width = 1920;
         this.height = 1440;
         this.height = 1080;
-        this.title = "Engine";
+        this.title = "Physics Engine";
         this.resizable = true;
         r = 1;
         b = 1;
         g = 1;
         a = 1;
+
+        init();
     }
 
     // singleton
@@ -203,25 +205,33 @@ public class Window {
 
     public void setTitle(String title) {
         this.title = title;
+        glfwSetWindowTitle(glfwWindow, title);
     }
 
-    public void setWidth(int width) {
+    private void setHeigth(int height) {
+        this.height = height;
+    }
+
+    private void setWidth(int width) {
         this.width = width;
+    }
+
+    public void setWindowSize(int width, int height) {
+        this.width = width;
+        this.height = height;
+        glfwSetWindowSize(glfwWindow, width, height);
+    }
+
+    public void setResizable(boolean resizable) {
+        this.resizable = resizable;
+        glfwSetWindowAttrib(glfwWindow, GLFW_RESIZABLE, resizable ? GLFW_TRUE : GLFW_FALSE);
     }
 
     public int getWidth() {
         return this.width;
     }
 
-    public void setHeigth(int height) {
-        this.height = height;
-    }
-
     public int getHeight() {
         return this.height;
-    }
-
-    public void setResizable(boolean resizable) {
-        this.resizable = resizable;
     }
 }
