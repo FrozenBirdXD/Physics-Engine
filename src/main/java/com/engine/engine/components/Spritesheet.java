@@ -10,10 +10,12 @@ import com.engine.engine.renderer.Texture;
 public class Spritesheet {
     private Texture texture;
     private List<Sprite> sprites;
+    private int numSprites;
 
     public Spritesheet(Texture texture, int spriteWidth, int spriteHeigth, int numSprites, int spacing) {
         this.sprites = new ArrayList<>();
         this.texture = texture;
+        this.numSprites = numSprites;
         int currentX = 0;
         // top left sprite -> bottom left corner of it
         int currentY = texture.getHeight() - spriteHeigth;
@@ -45,5 +47,9 @@ public class Spritesheet {
 
     public Sprite getSprite(int index) {
         return sprites.get(index);
+    }
+
+    public int getNumSprites() {
+        return this.numSprites;
     }
 }

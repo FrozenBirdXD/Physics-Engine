@@ -34,7 +34,7 @@ public class Window {
     // private static volatile Window window;
     // private static final ExecutorService executor =
     // Executors.newCachedThreadPool();
-    private static Scene currentScene;
+    private Scene currentScene;
 
     private Window() {
         this.width = 2560;

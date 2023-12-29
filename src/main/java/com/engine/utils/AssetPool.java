@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.transform.Templates;
-
 import com.engine.engine.components.Spritesheet;
 import com.engine.engine.renderer.Shaders;
 import com.engine.engine.renderer.Texture;
