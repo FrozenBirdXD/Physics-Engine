@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import imgui.ImGui;
 
@@ -25,6 +26,11 @@ public abstract class Component {
             Field[] fields = this.getClass().getDeclaredFields();
             for (Field f : fields) {
                 boolean isPrivate = Modifier.isPrivate(f.getModifiers());
+                boolean isTransient = Modifier.isTransient(f.getModifiers());
+
+                if (isTransient) {
+                    continue;
+                }
                 // temporarily set to public
                 if (isPrivate) {
                     f.setAccessible(true);
@@ -59,6 +65,13 @@ public abstract class Component {
                     if (ImGui.dragFloat3(name + ": ", imFloatArray)) {
                         // don't need to set extra since reference type var
                         castedValue.set(imFloatArray[0], imFloatArray[1], imFloatArray[2]);
+                    }
+                } else if (type == Vector4f.class) {
+                    Vector4f castedValue = (Vector4f) value;
+                    float[] imFloatArray = { castedValue.x, castedValue.y, castedValue.z, castedValue.w };
+                    if (ImGui.dragFloat4(name + ": ", imFloatArray)) {
+                        // don't need to set extra since reference type var
+                        castedValue.set(imFloatArray[0], imFloatArray[1], imFloatArray[2], imFloatArray[3]);
                     }
                 }
 
