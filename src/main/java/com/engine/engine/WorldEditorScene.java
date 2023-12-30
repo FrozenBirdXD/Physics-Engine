@@ -7,6 +7,7 @@ import com.engine.engine.components.RigidBody;
 import com.engine.engine.components.Sprite;
 import com.engine.engine.components.SpriteRenderer;
 import com.engine.engine.components.Spritesheet;
+import com.engine.engine.listeners.MouseListener;
 import com.engine.engine.renderer.Texture;
 import com.engine.engine.serialization.ComponentDeserializer;
 import com.engine.engine.serialization.GameObjectDeserializer;
@@ -15,10 +16,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import imgui.ImGui;
+import imgui.ImVec2;
 
 public class WorldEditorScene extends Scene {
 
     private Spritesheet sprites;
+    private int textureIndex;
 
     public WorldEditorScene() {
 
@@ -37,12 +40,10 @@ public class WorldEditorScene extends Scene {
 
         // System.out.println("create object");
 
-        sprites = AssetPool.getSpritesheet("src/main/assets/spritesheets/spritesheet_16x16.png");
-
-        sandwich = new GameObject("sandwich", new Transform(new Vector2f(100, 100), new Vector2f(300, 300)), 2);
+        sandwich = new GameObject("sandwich", new Transform(new Vector2f(0, 0), new Vector2f(300, 300)), 2);
         SpriteRenderer spriteRenderer = new SpriteRenderer();
         RigidBody rigidBody = new RigidBody();
-        spriteRenderer.setSprite(sprites.getSprite(58));
+        spriteRenderer.setSprite(sprites.getSprite(textureIndex));
         sandwich.addComponent(spriteRenderer);
         sandwich.addComponent(rigidBody);
         // GameObject sandwich1 = new GameObject("sandwich1",
@@ -74,6 +75,8 @@ public class WorldEditorScene extends Scene {
                 new Spritesheet(AssetPool.getTexture(
                         "src/main/assets/spritesheets/spritesheet_16x16.png"), 16, 16, 352,
                         0));
+
+        sprites = AssetPool.getSpritesheet("src/main/assets/spritesheets/spritesheet_16x16.png");
     }
 
     private int index = 0;
@@ -91,15 +94,15 @@ public class WorldEditorScene extends Scene {
         // if (index > 200) {
         // index = 0;
         // }
-        // sandwich.getComponent(SpriteRenderer.class).setSprite(sprites.getSprite(index));
+        // this.activeGameObject.getComponent(SpriteRenderer.class).setSprite(sprites.getSprite(index));
         // }
 
         // // Bounce left and right
-        // sandwich.transform.position.x += objectSpeed;
+        // this.activeGameObject.transform.position.x += objectSpeed;
 
-        // if (sandwich.transform.position.x > 700) {
+        // if (this.activeGameObject.transform.position.x > 700) {
         // objectSpeed *= -1;
-        // } else if (sandwich.transform.position.x < 0) {
+        // } else if (this.activeGameObject.transform.position.x < 0) {
         // objectSpeed *= -1;
         // }
 
@@ -113,9 +116,7 @@ public class WorldEditorScene extends Scene {
 
     @Override
     public void imgui() {
-        ImGui.begin("Test window");
-        ImGui.text("test window");
-        ImGui.end();
+        ImGui.begin("Test Positions");
         float[] imguiPositionX = new float[] { this.activeGameObject.transform.position.x };
         if (ImGui.sliderFloat("X Pos: ", imguiPositionX, 0, 1920)) {
             this.activeGameObject.transform
@@ -128,5 +129,50 @@ public class WorldEditorScene extends Scene {
                     .setPosition(new Vector2f(this.activeGameObject.transform.position.x, imguiPositionY[0]));
         }
 
+        // int[] textureId = new int[] { this.textureIndex };
+        // if (ImGui.sliderInt("Texture Index: ", textureId, 0, sprites.getNumSprites()
+        // - 1)) {
+        // this.textureIndex = textureId[0];
+        // this.activeGameObject.getComponent(SpriteRenderer.class).setSprite(sprites.getSprite(textureIndex));
+        // }
+        ImGui.end();
+        ImGui.begin("Test Icons");
+
+        ImVec2 windowPos = new ImVec2();
+        ImGui.getWindowPos(windowPos);
+        ImVec2 windowSize = new ImVec2();
+        ImGui.getWindowSize(windowSize);
+        ImVec2 itemSpacing = new ImVec2();
+        ImGui.getStyle().getItemSpacing(itemSpacing);
+
+        float rightCornerOfWindow = windowPos.x + windowSize.x;
+        for (int i = 0; i < sprites.getNumSprites(); i++) {
+            Sprite sprite = sprites.getSprite(i);
+            // goal width and height
+            float spriteWidth = sprite.getWidth() * 4;
+            float spriteHeight = sprite.getHeight() * 4;
+            int id = sprite.getTextureId();
+
+            Vector2f[] textureCoords = sprite.getTexCoords();
+            ImGui.pushID(i);
+
+            // ImGui uses Id system to determine if something is clicked or not
+            if (ImGui.imageButton(id, spriteWidth, spriteHeight, textureCoords[0].x, textureCoords[0].y,
+                    textureCoords[2].x, textureCoords[2].y)) {
+                System.out.println("Button " + i + " clicked");
+            }
+
+            ImGui.popID();
+
+            ImVec2 lastButtonPosition = new ImVec2();
+            ImGui.getItemRectMax(lastButtonPosition);
+            float lastButtonRightCorner = lastButtonPosition.x;
+            float nextButtonRightCorner = lastButtonRightCorner + itemSpacing.x + spriteWidth;
+            if (i + 1 < sprites.getNumSprites() && nextButtonRightCorner < rightCornerOfWindow) {
+                ImGui.sameLine();
+            }
+        }
+
+        ImGui.end();
     }
 }
