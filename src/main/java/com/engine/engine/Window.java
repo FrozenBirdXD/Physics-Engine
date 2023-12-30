@@ -61,14 +61,14 @@ public class Window {
     }
 
     public void init() {
-        // Setup an error callback
+        // setup an error callback
         GLFWErrorCallback.createPrint(System.err).set();
 
-        // Initialize GLFW
+        // initialize GLFW
         if (!glfwInit())
             throw new IllegalStateException("Unable to initialize GLFW");
 
-        // Configure GLFW
+        // configure GLFW
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -77,20 +77,20 @@ public class Window {
         glfwWindowHint(GLFW_RESIZABLE, resizable ? GLFW_TRUE : GLFW_FALSE); // resizeability
         glfwWindowHint(GLFW_MAXIMIZED, GLFW_FALSE); // the window will be maximized
 
-        // Create the window
+        // create the window with default values
         glfwWindow = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
         if (glfwWindow == NULL) {
             throw new RuntimeException("Failed to create the GLFW window");
         }
 
-        // Callbacks after window is created
-        // Set mouse callbacks -> glfw calls this function when there is an event
+        // callbacks after window is created
+        // set mouse callbacks -> glfw calls this function when there is an event
         glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback); // forward position function to the
                                                                                // 'mousePosCallback'
         glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
         glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
 
-        // Set key callback
+        // set key callback
         glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
 
         glfwSetFramebufferSizeCallback(glfwWindow, DisplayListener::framebufferSizeCallback);
@@ -99,7 +99,7 @@ public class Window {
             get().setHeigth(newHeight);
         });
 
-        // Make the OpenGL context current
+        // make the OpenGL context current
         glfwMakeContextCurrent(glfwWindow);
         // This line is critical for LWJGL's interoperation with GLFW's
         // OpenGL context, or any context that is managed externally.
@@ -108,26 +108,26 @@ public class Window {
         // bindings available for use.
         GL.createCapabilities();
 
-        // Enable alpha value blending
+        // enable alpha value blending
         glEnable(GL_BLEND);
-        // Blending Function with source and destination value
+        // blending Function with source and destination value
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-        // Initialize imGui
+        // initialize imGui
         this.imGuiLayer = new ImGuiLayer(glfwWindow);
         this.imGuiLayer.initImGui();
 
-        // Specify OpenGL viewport size
+        // specify OpenGL viewport size
         glViewport(0, 0, this.width, this.height);
 
-        // Enable v-sync
+        // enable v-sync
         glfwSwapInterval(1);
     }
 
     public void show() {
         System.out.println("Running LWJGL version " + Version.getVersion());
 
-        // Make the window visible
+        // make the window visible
         glfwShowWindow(glfwWindow);
 
         loop();
@@ -135,13 +135,25 @@ public class Window {
     }
 
     public void close() {
-        // Free the window callbacks and destroy the window
+        // free the window callbacks and destroy the window
         glfwFreeCallbacks(glfwWindow);
         glfwDestroyWindow(glfwWindow);
 
-        // Terminate GLFW and free the error callback
+        // terminate GLFW and free the error callback
         glfwTerminate();
         glfwSetErrorCallback(null).free();
+    }
+
+    private boolean processCloseRequest() {
+        boolean temp = true;
+        if (glfwWindowShouldClose(glfwWindow)) {
+            if (temp) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
     }
 
     public void loop() {
@@ -149,26 +161,26 @@ public class Window {
         float endTime;
         float dt = -1.0f;
 
-        // Render loop
-        while (!glfwWindowShouldClose(glfwWindow)) {
-            // Checks if any events are triggered
+        // render loop
+        while (!processCloseRequest()) {
+            // checks if any events are triggered
             glfwPollEvents();
 
-            // Set the clear color
+            // set the clear color
             glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            // Update current scene
+            // update current scene
             if (dt >= 0) {
                 currentScene.update(dt);
             }
 
             this.imGuiLayer.update(dt, currentScene);
 
-            // Swap the color buffers
+            // swap the color buffers
             glfwSwapBuffers(glfwWindow);
 
-            // Time
+            // time
             endTime = (float) glfwGetTime();
             dt = endTime - beginTime;
             beginTime = endTime;
@@ -204,6 +216,11 @@ public class Window {
     public void setTitle(String title) {
         this.title = title;
         glfwSetWindowTitle(glfwWindow, title);
+    }
+
+
+    public void setWindowOpacity(float opacity) {
+        glfwSetWindowOpacity(glfwWindow, opacity);
     }
 
     private void setHeigth(int height) {
