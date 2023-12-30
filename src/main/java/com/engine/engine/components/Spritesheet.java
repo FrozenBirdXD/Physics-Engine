@@ -31,9 +31,12 @@ public class Spritesheet {
                     new Vector2f(leftX, bottomY),
                     new Vector2f(leftX, topY),
             };
+            // create the sprites and add them to list
             Sprite sprite = new Sprite();
             sprite.setTexture(texture);
             sprite.setTexCoords(texCoords);
+            sprite.setHeight(spriteHeigth);
+            sprite.setWidth(spriteWidth);
             this.sprites.add(sprite);
 
             // increment current x and y
