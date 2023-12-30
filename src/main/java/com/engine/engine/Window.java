@@ -125,8 +125,6 @@ public class Window {
     }
 
     public void show() {
-        // init();
-
         System.out.println("Running LWJGL version " + Version.getVersion());
 
         // Make the window visible

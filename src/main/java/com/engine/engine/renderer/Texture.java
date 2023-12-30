@@ -72,6 +72,10 @@ public class Texture {
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 
+    public int getTextureId() {
+        return textureId;
+    }
+
     public int getWidth() {
         return this.width;
     }
