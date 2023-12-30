@@ -2,6 +2,10 @@ package com.engine.engine.listeners;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+import org.joml.Vector4f;
+
+import com.engine.engine.Window;
+
 public class MouseListener {
     private static MouseListener instance;
     private double scrollX, scrollY;
@@ -71,6 +75,34 @@ public class MouseListener {
         return (float) get().yPos;
     }
 
+    // world coordinate x
+    public static float getOrthoX() {
+        float currentX = getX();
+        // convert to normalized coordinates (-1 to 1)
+        currentX = (currentX / (float) Window.get().getWidth()) * 2 - 1;
+        Vector4f temp = new Vector4f(currentX, 0, 0, 1);
+        // convert to world coordinates
+        temp.mul(Window.get().getScene().getCamera().getInverseProjectionMatrix())
+                .mul(Window.get().getScene().getCamera().getInverseViewMatrix());
+        currentX = temp.x;
+        System.out.println(currentX);
+        return currentX;
+    }
+
+    // world coordinate Y
+    public static float getOrthoY() {
+        float currentY = getY();
+        // convert to normalized coordinates (-1 to 1)
+        currentY = (currentY / (float) Window.get().getHeight()) * 2 - 1;
+        Vector4f temp = new Vector4f(0, currentY, 0, 1);
+        // convert to world coordinates
+        temp.mul(Window.get().getScene().getCamera().getInverseProjectionMatrix())
+                .mul(Window.get().getScene().getCamera().getInverseViewMatrix());
+        currentY = temp.y;
+        System.out.println(currentY);
+        return currentY;
+    }
+
     public static float getDx() {
         return (float) (get().lastX - get().xPos);
     }
@@ -98,6 +130,5 @@ public class MouseListener {
             return false;
         }
     }
-
 
 }
