@@ -8,6 +8,7 @@ import org.lwjgl.system.*;
 import com.engine.graphics.listeners.DisplayListener;
 import com.engine.graphics.listeners.KeyListener;
 import com.engine.graphics.listeners.MouseListener;
+import com.engine.graphics.scenes.Scene;
 
 import imgui.ImFontAtlas;
 import imgui.ImFontConfig;

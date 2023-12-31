@@ -2,9 +2,9 @@ package com.engine.graphics.serialization;
 
 import java.lang.reflect.Type;
 
-import com.engine.graphics.Component;
 import com.engine.graphics.GameObject;
-import com.engine.graphics.Transform;
+import com.engine.graphics.components.Component;
+import com.engine.graphics.utils.Transform;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

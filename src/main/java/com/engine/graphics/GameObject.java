@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.joml.Vector2f;
 
+import com.engine.graphics.components.Component;
+import com.engine.graphics.utils.Transform;
+
 import imgui.ImGui;
 
 public class GameObject {

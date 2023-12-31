@@ -1,7 +1,8 @@
-package com.engine.graphics;
+package com.engine.graphics.scenes;
 
 import java.awt.event.KeyEvent;
 
+import com.engine.graphics.Window;
 import com.engine.graphics.listeners.KeyListener;
 
 public class PlaySimulationScene extends Scene {

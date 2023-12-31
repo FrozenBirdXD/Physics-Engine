@@ -3,10 +3,9 @@ package com.engine.graphics.components;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
-import com.engine.graphics.Component;
-import com.engine.graphics.Transform;
 import com.engine.graphics.renderer.Texture;
-import com.engine.graphics.utils.AssetPool;
+// import com.engine.graphics.utils.AssetPool;
+import com.engine.graphics.utils.Transform;
 
 import imgui.ImGui;
 

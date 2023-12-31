@@ -1,8 +1,10 @@
-package com.engine.graphics;
+package com.engine.graphics.scenes;
 
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
+import com.engine.graphics.Camera;
+import com.engine.graphics.GameObject;
 import com.engine.graphics.components.RigidBody;
 import com.engine.graphics.components.Sprite;
 import com.engine.graphics.components.SpriteRenderer;
@@ -12,6 +14,7 @@ import com.engine.graphics.renderer.Texture;
 import com.engine.graphics.serialization.ComponentDeserializer;
 import com.engine.graphics.serialization.GameObjectDeserializer;
 import com.engine.graphics.utils.AssetPool;
+import com.engine.graphics.utils.Transform;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -139,6 +142,7 @@ public class WorldEditorScene extends Scene {
             // ImGui uses Id system to determine if something is clicked or not
             if (ImGui.imageButton(id, spriteWidth, spriteHeight, textureCoords[0].x, textureCoords[0].y,
                     textureCoords[2].x, textureCoords[2].y)) {
+                // this.activeGameObject.getComponent(SpriteRenderer.class).setSprite(sprite);
                 System.out.println("Button " + i + " clicked");
             }
 

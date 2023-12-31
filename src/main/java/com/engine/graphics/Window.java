@@ -9,6 +9,7 @@ import org.lwjgl.system.*;
 import com.engine.graphics.listeners.DisplayListener;
 import com.engine.graphics.listeners.KeyListener;
 import com.engine.graphics.listeners.MouseListener;
+import com.engine.graphics.scenes.Scene;
 import com.engine.graphics.utils.ColorConversion;
 import com.engine.graphics.utils.Colors;
 

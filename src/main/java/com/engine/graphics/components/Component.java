@@ -1,10 +1,12 @@
-package com.engine.graphics;
+package com.engine.graphics.components;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+
+import com.engine.graphics.GameObject;
 
 import imgui.ImGui;
 

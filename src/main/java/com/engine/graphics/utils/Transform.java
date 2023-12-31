@@ -1,4 +1,4 @@
-package com.engine.graphics;
+package com.engine.graphics.utils;
 
 import org.joml.Vector2f;
 
