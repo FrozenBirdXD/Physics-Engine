@@ -1,10 +1,10 @@
-package com.engine.engine.listeners;
+package com.engine.graphics.listeners;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 import org.joml.Vector4f;
 
-import com.engine.engine.Window;
+import com.engine.graphics.Window;
 
 public class MouseListener {
     private static MouseListener instance;

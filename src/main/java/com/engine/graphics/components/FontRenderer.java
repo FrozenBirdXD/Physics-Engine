@@ -1,6 +1,6 @@
-package com.engine.engine.components;
+package com.engine.graphics.components;
 
-import com.engine.engine.Component;
+import com.engine.graphics.Component;
 
 public class FontRenderer extends Component {
 

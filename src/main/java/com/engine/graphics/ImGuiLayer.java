@@ -1,13 +1,13 @@
-package com.engine.engine;
+package com.engine.graphics;
 
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
-import com.engine.engine.listeners.DisplayListener;
-import com.engine.engine.listeners.KeyListener;
-import com.engine.engine.listeners.MouseListener;
+import com.engine.graphics.listeners.DisplayListener;
+import com.engine.graphics.listeners.KeyListener;
+import com.engine.graphics.listeners.MouseListener;
 
 import imgui.ImFontAtlas;
 import imgui.ImFontConfig;

@@ -1,10 +1,10 @@
-package com.engine.engine.serialization;
+package com.engine.graphics.serialization;
 
 import java.lang.reflect.Type;
 
-import com.engine.engine.Component;
-import com.engine.engine.GameObject;
-import com.engine.engine.Transform;
+import com.engine.graphics.Component;
+import com.engine.graphics.GameObject;
+import com.engine.graphics.Transform;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

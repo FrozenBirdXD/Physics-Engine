@@ -1,17 +1,17 @@
-package com.engine.engine;
+package com.engine.graphics;
 
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
-import com.engine.engine.components.RigidBody;
-import com.engine.engine.components.Sprite;
-import com.engine.engine.components.SpriteRenderer;
-import com.engine.engine.components.Spritesheet;
-import com.engine.engine.listeners.MouseListener;
-import com.engine.engine.renderer.Texture;
-import com.engine.engine.serialization.ComponentDeserializer;
-import com.engine.engine.serialization.GameObjectDeserializer;
-import com.engine.utils.AssetPool;
+import com.engine.graphics.components.RigidBody;
+import com.engine.graphics.components.Sprite;
+import com.engine.graphics.components.SpriteRenderer;
+import com.engine.graphics.components.Spritesheet;
+import com.engine.graphics.listeners.MouseListener;
+import com.engine.graphics.renderer.Texture;
+import com.engine.graphics.serialization.ComponentDeserializer;
+import com.engine.graphics.serialization.GameObjectDeserializer;
+import com.engine.graphics.utils.AssetPool;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

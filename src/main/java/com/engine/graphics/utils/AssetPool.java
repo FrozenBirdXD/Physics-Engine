@@ -1,12 +1,12 @@
-package com.engine.utils;
+package com.engine.graphics.utils;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.engine.engine.components.Spritesheet;
-import com.engine.engine.renderer.Shaders;
-import com.engine.engine.renderer.Texture;
+import com.engine.graphics.components.Spritesheet;
+import com.engine.graphics.renderer.Shaders;
+import com.engine.graphics.renderer.Texture;
 
 public class AssetPool {
     private static Map<String, Shaders> shaders = new HashMap<>();

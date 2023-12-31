@@ -1,9 +1,9 @@
-package com.engine.engine.components;
+package com.engine.graphics.components;
 
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
-import com.engine.engine.Component;
+import com.engine.graphics.Component;
 
 public class RigidBody extends Component {
     private int colliderType = 0;

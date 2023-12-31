@@ -1,4 +1,4 @@
-package com.engine.engine.renderer;
+package com.engine.graphics.renderer;
 
 import java.io.IOException;
 import java.nio.FloatBuffer;

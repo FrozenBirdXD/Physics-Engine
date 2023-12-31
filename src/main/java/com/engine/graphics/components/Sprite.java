@@ -1,8 +1,8 @@
-package com.engine.engine.components;
+package com.engine.graphics.components;
 
 import org.joml.Vector2f;
 
-import com.engine.engine.renderer.Texture;
+import com.engine.graphics.renderer.Texture;
 
 public class Sprite {
     private float width;

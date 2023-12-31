@@ -1,12 +1,12 @@
-package com.engine.engine.renderer;
+package com.engine.graphics.renderer;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import com.engine.engine.GameObject;
-import com.engine.engine.components.SpriteRenderer;
+import com.engine.graphics.GameObject;
+import com.engine.graphics.components.SpriteRenderer;
 
 public class Renderer {
     private final int MAX_BATCH_SIZE = 10000;

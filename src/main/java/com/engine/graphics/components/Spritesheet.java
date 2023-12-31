@@ -1,11 +1,11 @@
-package com.engine.engine.components;
+package com.engine.graphics.components;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.joml.Vector2f;
 
-import com.engine.engine.renderer.Texture;
+import com.engine.graphics.renderer.Texture;
 
 public class Spritesheet {
     private Texture texture;

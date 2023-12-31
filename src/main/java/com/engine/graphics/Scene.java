@@ -1,4 +1,4 @@
-package com.engine.engine;
+package com.engine.graphics;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -7,9 +7,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.engine.engine.renderer.Renderer;
-import com.engine.engine.serialization.ComponentDeserializer;
-import com.engine.engine.serialization.GameObjectDeserializer;
+import com.engine.graphics.renderer.Renderer;
+import com.engine.graphics.serialization.ComponentDeserializer;
+import com.engine.graphics.serialization.GameObjectDeserializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

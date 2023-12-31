@@ -1,8 +1,8 @@
-package com.engine.engine;
+package com.engine.graphics;
 
 import java.awt.event.KeyEvent;
 
-import com.engine.engine.listeners.KeyListener;
+import com.engine.graphics.listeners.KeyListener;
 
 public class PlaySimulationScene extends Scene {
     private boolean changingScene = false;
@@ -27,7 +27,7 @@ public class PlaySimulationScene extends Scene {
             Window.get().g -= dt * 5.0f;
             Window.get().b -= dt * 5.0f;
         } else if (changingScene) {
-            Window.get().setScene(0);
+            // Window.get().setScene(0);
         }
     }
 }

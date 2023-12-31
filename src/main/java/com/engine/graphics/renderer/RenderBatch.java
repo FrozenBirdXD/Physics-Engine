@@ -1,4 +1,4 @@
-package com.engine.engine.renderer;
+package com.engine.graphics.renderer;
 
 import static org.lwjgl.opengl.GL33.*;
 
@@ -8,9 +8,9 @@ import java.util.List;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
-import com.engine.engine.Window;
-import com.engine.engine.components.SpriteRenderer;
-import com.engine.utils.AssetPool;
+import com.engine.graphics.Window;
+import com.engine.graphics.components.SpriteRenderer;
+import com.engine.graphics.utils.AssetPool;
 
 public class RenderBatch implements Comparable<RenderBatch> {
     // Vertex

@@ -1,4 +1,4 @@
-package com.engine.engine.renderer;
+package com.engine.graphics.renderer;
 
 import static org.lwjgl.opengl.GL33.*;
 

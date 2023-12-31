@@ -1,11 +1,11 @@
-package com.engine.engine.components;
+package com.engine.graphics.components;
 
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
-import com.engine.engine.Component;
-import com.engine.engine.Transform;
-import com.engine.engine.renderer.Texture;
+import com.engine.graphics.Component;
+import com.engine.graphics.Transform;
+import com.engine.graphics.renderer.Texture;
 
 import imgui.ImGui;
 

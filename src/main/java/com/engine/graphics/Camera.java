@@ -1,4 +1,4 @@
-package com.engine.engine;
+package com.engine.graphics;
 
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
