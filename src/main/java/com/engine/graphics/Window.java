@@ -1,13 +1,16 @@
-package com.engine.engine;
+package com.engine.graphics;
 
+import org.joml.Vector3f;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 
-import com.engine.engine.listeners.DisplayListener;
-import com.engine.engine.listeners.KeyListener;
-import com.engine.engine.listeners.MouseListener;
+import com.engine.graphics.listeners.DisplayListener;
+import com.engine.graphics.listeners.KeyListener;
+import com.engine.graphics.listeners.MouseListener;
+import com.engine.graphics.utils.ColorConversion;
+import com.engine.graphics.utils.Colors;
 
 import java.nio.*;
 import java.util.concurrent.ExecutorService;
@@ -167,7 +170,7 @@ public class Window {
             glfwPollEvents();
 
             // set the clear color
-            glClearColor(r, g, b, a);
+            glClearColor(r, g, b, 0.5f);
             glClear(GL_COLOR_BUFFER_BIT);
 
             // update current scene
@@ -190,34 +193,57 @@ public class Window {
         currentScene.saveAndExit();
     }
 
-    public void setScene(int newScene) {
-        switch (newScene) {
-            case 0:
-                currentScene = new WorldEditorScene();
-                break;
-            case 1:
-                currentScene = new PlaySimulationScene();
-                break;
-            default:
-                assert false : "Unknown scene '" + newScene + "'";
-                break;
+    public void setScene(Scene scene) {
+        if (scene == null) {
+            return;
         }
-
-        // load from save files
+        currentScene = scene;
         currentScene.load();
         currentScene.init();
         currentScene.start();
     }
 
+    // public void setScene(int newScene) {
+    // switch (newScene) {
+    // case 0:
+    // currentScene = new WorldEditorScene();
+    // break;
+    // case 1:
+    // currentScene = new PlaySimulationScene();
+    // break;
+    // default:
+    // assert false : "Unknown scene '" + newScene + "'";
+    // break;
+    // }
+
+    // // load from save files
+    // currentScene.load();
+    // currentScene.init();
+    // currentScene.start();
+    // }
+
     public Scene getScene() {
         return get().currentScene;
+    }
+
+    public void setWindowBackgroundColor(Colors color) {
+        Vector3f vec = ColorConversion.colorToRGB(color);
+        this.r = vec.x;
+        this.g = vec.y;
+        this.b = vec.z;
+    }
+
+    public void setWindowBackgroundColorOpacity(float opacity) {
+        // if (opacity < 0 || opacity > 1) {
+        //     assert false : "Opacity '" + opacity + "' is not in range 0.0 to 1.0";
+        // }
+        this.a = opacity;
     }
 
     public void setTitle(String title) {
         this.title = title;
         glfwSetWindowTitle(glfwWindow, title);
     }
-
 
     public void setWindowOpacity(float opacity) {
         glfwSetWindowOpacity(glfwWindow, opacity);
