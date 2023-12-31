@@ -116,26 +116,6 @@ public class WorldEditorScene extends Scene {
 
     @Override
     public void imgui() {
-        ImGui.begin("Test Positions");
-        float[] imguiPositionX = new float[] { this.activeGameObject.transform.position.x };
-        if (ImGui.sliderFloat("X Pos: ", imguiPositionX, 0, 1920)) {
-            this.activeGameObject.transform
-                    .setPosition(new Vector2f(imguiPositionX[0], this.activeGameObject.transform.position.y));
-        }
-
-        float[] imguiPositionY = new float[] { this.activeGameObject.transform.position.y };
-        if (ImGui.sliderFloat("Y Pos: ", imguiPositionY, 0, 1080)) {
-            this.activeGameObject.transform
-                    .setPosition(new Vector2f(this.activeGameObject.transform.position.x, imguiPositionY[0]));
-        }
-
-        // int[] textureId = new int[] { this.textureIndex };
-        // if (ImGui.sliderInt("Texture Index: ", textureId, 0, sprites.getNumSprites()
-        // - 1)) {
-        // this.textureIndex = textureId[0];
-        // this.activeGameObject.getComponent(SpriteRenderer.class).setSprite(sprites.getSprite(textureIndex));
-        // }
-        ImGui.end();
         ImGui.begin("Test Icons");
 
         ImVec2 windowPos = new ImVec2();
