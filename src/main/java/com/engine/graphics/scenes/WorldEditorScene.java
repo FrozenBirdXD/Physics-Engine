@@ -14,9 +14,9 @@ import com.engine.graphics.renderer.Texture;
 import com.engine.graphics.serialization.ComponentDeserializer;
 import com.engine.graphics.serialization.GameObjectDeserializer;
 import com.engine.graphics.utils.AssetPool;
+import com.engine.graphics.utils.MouseHelper;
+import com.engine.graphics.utils.Prefabs;
 import com.engine.graphics.utils.Transform;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import imgui.ImGui;
 import imgui.ImVec2;
@@ -25,6 +25,7 @@ public class WorldEditorScene extends Scene {
 
     private Spritesheet sprites;
     private int textureIndex;
+    private MouseHelper mouseHelper = new MouseHelper();
 
     public WorldEditorScene() {
 
@@ -108,7 +109,7 @@ public class WorldEditorScene extends Scene {
         // } else if (this.activeGameObject.transform.position.x < 0) {
         // objectSpeed *= -1;
         // }
-
+        mouseHelper.update(dt);
         for (GameObject object : this.gameObjects) {
             object.update(dt);
         }
@@ -143,7 +144,8 @@ public class WorldEditorScene extends Scene {
             if (ImGui.imageButton(id, spriteWidth, spriteHeight, textureCoords[0].x, textureCoords[0].y,
                     textureCoords[2].x, textureCoords[2].y)) {
                 // this.activeGameObject.getComponent(SpriteRenderer.class).setSprite(sprite);
-                System.out.println("Button " + i + " clicked");
+                GameObject object = Prefabs.createSpriteObjectFromTexture(sprite, spriteWidth, spriteHeight);
+                mouseHelper.pickupObject(object);
             }
 
             ImGui.popID();
