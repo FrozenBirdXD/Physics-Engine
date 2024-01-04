@@ -10,7 +10,7 @@ public class MouseListener {
     private static MouseListener instance;
     private double scrollX, scrollY;
     private double xPos, yPos, lastY, lastX;
-    private boolean mouseButtonPressed[] = new boolean[3];
+    private boolean mouseButtonPressed[] = new boolean[9];
     private boolean isDragging;
 
     private MouseListener() {
@@ -91,7 +91,8 @@ public class MouseListener {
 
     // world coordinate Y
     public static float getOrthoY() {
-        float currentY = getY();
+        // subtract because projection flips y coords
+        float currentY = Window.get().getHeight() - getY();
         // convert to normalized coordinates (-1 to 1)
         currentY = (currentY / (float) Window.get().getHeight()) * 2 - 1;
         Vector4f temp = new Vector4f(0, currentY, 0, 1);
