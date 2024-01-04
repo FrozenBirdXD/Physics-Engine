@@ -3,8 +3,6 @@ package com.engine.graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.joml.Vector2f;
-
 import com.engine.graphics.components.Component;
 import com.engine.graphics.utils.Transform;
 
@@ -77,14 +75,14 @@ public class GameObject {
         for (Component c : components) {
             c.imgui();
         }
-        float[] imguiPositionX = new float[] { this.transform.position.x };
+        float[] imguiPositionX = new float[] { this.transform.getPositionX() };
         if (ImGui.sliderFloat("X Pos: ", imguiPositionX, 0, 1920)) {
-            this.transform.setPosition(new Vector2f(imguiPositionX[0], this.transform.position.y));
+            this.transform.setPosition(imguiPositionX[0], this.transform.getPositionY());
         }
 
-        float[] imguiPositionY = new float[] { this.transform.position.y };
+        float[] imguiPositionY = new float[] { this.transform.getPositionY() };
         if (ImGui.sliderFloat("Y Pos: ", imguiPositionY, 0, 1080)) {
-            this.transform.setPosition(new Vector2f(this.transform.position.x, imguiPositionY[0]));
+            this.transform.setPosition(this.transform.getPositionX(), imguiPositionY[0]);
         }
     }
 

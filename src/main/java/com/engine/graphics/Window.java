@@ -171,7 +171,7 @@ public class Window {
             glfwPollEvents();
 
             // set the clear color
-            glClearColor(r, g, b, 0.5f);
+            glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT);
 
             // update current scene
@@ -203,25 +203,6 @@ public class Window {
         currentScene.init();
         currentScene.start();
     }
-
-    // public void setScene(int newScene) {
-    // switch (newScene) {
-    // case 0:
-    // currentScene = new WorldEditorScene();
-    // break;
-    // case 1:
-    // currentScene = new PlaySimulationScene();
-    // break;
-    // default:
-    // assert false : "Unknown scene '" + newScene + "'";
-    // break;
-    // }
-
-    // // load from save files
-    // currentScene.load();
-    // currentScene.init();
-    // currentScene.start();
-    // }
 
     public Scene getScene() {
         return get().currentScene;
