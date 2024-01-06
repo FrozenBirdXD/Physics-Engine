@@ -41,35 +41,27 @@ public class WorldEditorScene extends Scene {
             return;
         }
         GameObject sandwich;
-
-        // System.out.println("create object");
+        GameObject sandwich1;
 
         sandwich = new GameObject("sandwich", new Transform(new Vector2f(0, 0), new Vector2f(300, 300)), 2);
         SpriteRenderer spriteRenderer = new SpriteRenderer();
         RigidBody rigidBody = new RigidBody();
         spriteRenderer.setSprite(sprites.getSprite(textureIndex));
+
+        sandwich1 = new GameObject("sandwich1", new Transform(new Vector2f(200, 200), new Vector2f(300, 300)), 2);
+        SpriteRenderer spriteRenderer1 = new SpriteRenderer();
+        RigidBody rigidBody1 = new RigidBody();
+        spriteRenderer1.setSprite(sprites.getSprite(textureIndex + 1));
+
         sandwich.addComponent(spriteRenderer);
         sandwich.addComponent(rigidBody);
-        // GameObject sandwich1 = new GameObject("sandwich1",
-        // new Transform(new Vector2f(400, 100), new Vector2f(300, 300)), 1);
-        // sandwich1.addComponent(
-        // new SpriteRenderer(sprites.getSprite(85)));
-        // GameObject ob = new GameObject("lol", new Transform(new Vector2f(500, 500),
-        // new Vector2f(200, 200)), 3);
-        // ob.addComponent(new SpriteRenderer(new Vector4f(0.4f, 1, 1, 1)));
 
-        // GameObject sandwich2 = new GameObject("sandwich2",
-        // new Transform(new Vector2f(700, 100), new Vector2f(300, 300)));
-        // sandwich2.addComponent(
-        // new SpriteRenderer(new Sprite(new
-        // Texture("src/main/assets/images/sandwich.png"))));
+        sandwich1.addComponent(spriteRenderer1);
+        sandwich1.addComponent(rigidBody1);
+
         addGameObjectToScene(sandwich);
-        // addGameObjectToScene(sandwich1);
-        // addGameObjectToScene(ob);
+        addGameObjectToScene(sandwich1);
         this.activeGameObject = sandwich;
-
-        // addGameObjectToScene(sandwich2);
-
     }
 
     private void loadResources() {
@@ -83,39 +75,14 @@ public class WorldEditorScene extends Scene {
         sprites = AssetPool.getSpritesheet("src/main/assets/spritesheets/spritesheet_16x16.png");
     }
 
-    private int index = 0;
-    private float spriteFlipTime = 0.2f;
-    private float spriteFlipLeft = 0.0f;
-    private float objectSpeed = 1.0f;
-
     @Override
     public void update(float dt) {
-        // // switch between the textures
-        // spriteFlipLeft -= dt * 0.5;
-        // if (spriteFlipLeft <= 0.0) {
-        // spriteFlipLeft = spriteFlipTime;
-        // index++;
-        // if (index > 200) {
-        // index = 0;
-        // }
-        // this.activeGameObject.getComponent(SpriteRenderer.class).setSprite(sprites.getSprite(index));
-        // }
-
-        // // Bounce left and right
-        // this.activeGameObject.transform.position.x += objectSpeed;
-
-        // if (this.activeGameObject.transform.position.x > 700) {
-        // objectSpeed *= -1;
-        // } else if (this.activeGameObject.transform.position.x < 0) {
-        // objectSpeed *= -1;
-        // }
         mouseHelper.update(dt);
         for (GameObject object : this.gameObjects) {
             object.update(dt);
         }
 
         this.renderer.render();
-
     }
 
     @Override
@@ -143,7 +110,6 @@ public class WorldEditorScene extends Scene {
             // ImGui uses Id system to determine if something is clicked or not
             if (ImGui.imageButton(id, spriteWidth, spriteHeight, textureCoords[0].x, textureCoords[0].y,
                     textureCoords[2].x, textureCoords[2].y)) {
-                // this.activeGameObject.getComponent(SpriteRenderer.class).setSprite(sprite);
                 GameObject object = Prefabs.createSpriteObjectFromTexture(sprite, spriteWidth, spriteHeight);
                 mouseHelper.pickupObject(object);
             }
