@@ -11,8 +11,21 @@ import com.engine.graphics.GameObject;
 import imgui.ImGui;
 
 public abstract class Component {
+    private static int idCounter = 0; // "global" to this type
+
+    private int uid = -1; // unique to each object
     // transient because GameObject already has a list components
     public transient GameObject gameObject = null;
+
+    public void generateId() {
+        if (uid == -1) {
+            uid = idCounter++;
+        }
+    }
+
+    public static void init(int maxId) {
+        idCounter = maxId;
+    }
 
     public void update(float dt) {
 
@@ -84,5 +97,9 @@ public abstract class Component {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getUid() {
+        return this.uid;
     }
 }

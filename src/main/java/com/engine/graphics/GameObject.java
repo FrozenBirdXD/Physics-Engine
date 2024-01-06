@@ -9,6 +9,9 @@ import com.engine.graphics.utils.Transform;
 import imgui.ImGui;
 
 public class GameObject {
+    private static int idCounter = 0;
+
+    private int uid = -1;
     private String name;
     private List<Component> components;
     private int zIndex;
@@ -22,11 +25,17 @@ public class GameObject {
         init(name, transform, zIndex);
     }
 
+    public static void init(int maxId) {
+        idCounter = maxId;
+    }
+
     public void init(String name, Transform transform, int zIndex) {
         this.name = name;
         this.components = new ArrayList<>();
         this.transform = transform;
         this.zIndex = zIndex;
+
+        this.uid = idCounter++;
     }
 
     public <T extends Component> T getComponent(Class<T> componentClass) {
@@ -56,6 +65,7 @@ public class GameObject {
 
     public void addComponent(Component c) {
         this.components.add(c);
+        c.generateId();
         c.gameObject = this;
     }
 
@@ -84,6 +94,14 @@ public class GameObject {
         if (ImGui.sliderFloat("Y Pos: ", imguiPositionY, 0, 1080)) {
             this.transform.setPosition(this.transform.getPositionX(), imguiPositionY[0]);
         }
+    }
+
+    public List<Component> getAllComponents() {
+        return this.components;
+    }
+
+    public int getUid() {
+        return this.uid;
     }
 
     public String getName() {
