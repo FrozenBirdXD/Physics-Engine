@@ -17,7 +17,7 @@ public class DebugDraw {
 
     private static int vaoID;
     private static int vboID;
-    private boolean started = false;
+    private static boolean started = false;
 
     public static void start() {
         // generate vao
@@ -25,5 +25,28 @@ public class DebugDraw {
         glBindVertexArray(vaoID);
 
         // create vbo and buffer some memory
+        vboID = glGenBuffers();
+        glBindBuffer(GL_ARRAY_BUFFER, vboID);
+        glBufferData(GL_ARRAY_BUFFER, vertexArray.length * Float.BYTES, GL_DYNAMIC_DRAW);
+
+        // Enable the vertex attributes
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, 6 * Float.BYTES, 0);
+        glEnableVertexAttribArray(0);
+
+        glVertexAttribPointer(1, 3, GL_FLOAT, false, 6 * Float.BYTES, 3 * Float.BYTES);
+        glEnableVertexAttribArray(1);
+
+        // set line width
+    }
+
+    public static void beginFrame() {
+        if (!started) {
+            start();
+            started = true;
+        }
+    }
+
+    public static void draw() {
+
     }
 }
