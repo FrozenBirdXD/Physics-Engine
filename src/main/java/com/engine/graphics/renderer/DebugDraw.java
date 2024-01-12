@@ -2,6 +2,10 @@ package com.engine.graphics.renderer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
+
+import org.joml.Vector2f;
+import org.joml.Vector3f;
 
 import com.engine.graphics.shapes.Line2D;
 import com.engine.graphics.utils.AssetPool;
@@ -44,9 +48,38 @@ public class DebugDraw {
             start();
             started = true;
         }
+
+        for (int i = 0; i < lines.size(); i++) {
+            if (lines.get(i).beginFrame() < 0) {
+                lines.remove(i);
+                i--;
+            }
+        }
     }
 
     public static void draw() {
+        if (lines.size() <= 0) {
+            return;
+        }
+
+        int index = 0;
+        for (Line2D line : lines) {
+            for (int i = 0; i < 2; i++) {
+                Vector2f position = i == 0 ? line.getFrom() : line.getTo();
+                Vector3f color = line.getColor();
+
+                // load position
+                vertexArray[index] = position.x;
+                vertexArray[index + 1] = position.y;
+                vertexArray[index + 2] = -10.0f;
+
+                // load the color
+                vertexArray[index + 3] = color.x;
+                vertexArray[index + 4] = color.y;
+                vertexArray[index + 5] = color.z;
+                index += 6;
+            }
+        }
 
     }
 }
