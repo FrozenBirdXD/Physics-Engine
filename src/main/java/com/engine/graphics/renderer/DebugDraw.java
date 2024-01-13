@@ -3,7 +3,6 @@ package com.engine.graphics.renderer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Vector;
 
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -11,6 +10,8 @@ import org.joml.Vector3f;
 import com.engine.graphics.Window;
 import com.engine.graphics.shapes.Line2D;
 import com.engine.graphics.utils.AssetPool;
+import com.engine.graphics.utils.ColorConversion;
+import com.engine.graphics.utils.Colors;
 
 import static org.lwjgl.opengl.GL33.*;
 
@@ -43,6 +44,7 @@ public class DebugDraw {
         glEnableVertexAttribArray(1);
 
         // set line width
+        glLineWidth(3);
     }
 
     public static void beginFrame() {
@@ -106,5 +108,25 @@ public class DebugDraw {
 
         // unbind shader
         shader.detach();
+    }
+
+    // =============================================================
+    // Line2D methods
+    // =============================================================
+
+    public static void addLine2D(Vector2f from, Vector2f to) {
+        addLine2D(from, to, ColorConversion.colorToRGB(Colors.Red), 1);
+    }
+
+    public static void addLine2D(Vector2f from, Vector2f to, Vector3f color) {
+        addLine2D(from, to, color, 1);
+    }
+
+    public static void addLine2D(Vector2f from, Vector2f to, Vector3f color, int lifetime) {
+        if (lines.size() >= MAX_LINES) {
+            return;
+        }
+
+        DebugDraw.lines.add(new Line2D(from, to, color, lifetime));
     }
 }
