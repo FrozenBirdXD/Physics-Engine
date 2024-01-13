@@ -9,6 +9,7 @@ import org.lwjgl.system.*;
 import com.engine.graphics.listeners.DisplayListener;
 import com.engine.graphics.listeners.KeyListener;
 import com.engine.graphics.listeners.MouseListener;
+import com.engine.graphics.renderer.DebugDraw;
 import com.engine.graphics.scenes.Scene;
 import com.engine.graphics.utils.ColorConversion;
 import com.engine.graphics.utils.Colors;
@@ -170,12 +171,15 @@ public class Window {
             // checks if any events are triggered
             glfwPollEvents();
 
+            DebugDraw.beginFrame();
+
             // set the clear color
             glClearColor(r, g, b, a);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            // update current scene
+            // update & draw current scene
             if (dt >= 0) {
+                DebugDraw.draw();
                 currentScene.update(dt);
             }
 
@@ -217,7 +221,7 @@ public class Window {
 
     public void setWindowBackgroundColorOpacity(float opacity) {
         // if (opacity < 0 || opacity > 1) {
-        //     assert false : "Opacity '" + opacity + "' is not in range 0.0 to 1.0";
+        // assert false : "Opacity '" + opacity + "' is not in range 0.0 to 1.0";
         // }
         this.a = opacity;
     }

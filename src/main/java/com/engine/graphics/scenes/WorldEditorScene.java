@@ -10,10 +10,13 @@ import com.engine.graphics.components.Sprite;
 import com.engine.graphics.components.SpriteRenderer;
 import com.engine.graphics.components.Spritesheet;
 import com.engine.graphics.listeners.MouseListener;
+import com.engine.graphics.renderer.DebugDraw;
 import com.engine.graphics.renderer.Texture;
 import com.engine.graphics.serialization.ComponentDeserializer;
 import com.engine.graphics.serialization.GameObjectDeserializer;
 import com.engine.graphics.utils.AssetPool;
+import com.engine.graphics.utils.ColorConversion;
+import com.engine.graphics.utils.Colors;
 import com.engine.graphics.utils.MouseHelper;
 import com.engine.graphics.utils.Prefabs;
 import com.engine.graphics.utils.Transform;
@@ -35,6 +38,7 @@ public class WorldEditorScene extends Scene {
     public void init() {
         loadResources();
         this.camera = new Camera(new Vector2f(0, 0));
+        DebugDraw.addLine2D(new Vector2f(0, 0), new Vector2f(800, 800), ColorConversion.colorToRGB(Colors.Red), 320);
 
         if (loadedScene) {
             this.activeGameObject = gameObjects.get(0);
