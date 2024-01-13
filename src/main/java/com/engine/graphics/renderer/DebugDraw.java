@@ -1,12 +1,14 @@
 package com.engine.graphics.renderer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
+import com.engine.graphics.Window;
 import com.engine.graphics.shapes.Line2D;
 import com.engine.graphics.utils.AssetPool;
 
@@ -81,5 +83,28 @@ public class DebugDraw {
             }
         }
 
+        glBindBuffer(GL_ARRAY_BUFFER, vboID);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, Arrays.copyOfRange(vertexArray, 0, lines.size() * 6 * 2));
+
+        // use shader
+        shader.use();
+        shader.uploadMat4f("uProjection", Window.get().getScene().getCamera().getProjectionMatrix());
+        shader.uploadMat4f("uView", Window.get().getScene().getCamera().getViewMatrix());
+
+        // bind vao
+        glBindVertexArray(vaoID);
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+
+        // draw the batch
+        glDrawArrays(GL_LINES, 0, lines.size() * 6 * 2);
+
+        // disable location
+        glDisableVertexAttribArray(0);
+        glDisableVertexAttribArray(1);
+        glBindVertexArray(0);
+
+        // unbind shader
+        shader.detach();
     }
 }
