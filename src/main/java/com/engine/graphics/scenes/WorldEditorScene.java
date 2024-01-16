@@ -14,6 +14,7 @@ import com.engine.graphics.renderer.DebugDraw;
 import com.engine.graphics.renderer.Texture;
 import com.engine.graphics.serialization.ComponentDeserializer;
 import com.engine.graphics.serialization.GameObjectDeserializer;
+import com.engine.graphics.shapes.Square;
 import com.engine.graphics.utils.AssetPool;
 import com.engine.graphics.utils.ColorConversion;
 import com.engine.graphics.utils.Colors;
@@ -49,8 +50,9 @@ public class WorldEditorScene extends Scene {
 
         sandwich = new GameObject("sandwich", new Transform(new Vector2f(0, 0), new Vector2f(300, 300)), 2);
         SpriteRenderer spriteRenderer = new SpriteRenderer();
+        spriteRenderer.setColor(new Vector4f(222, 222, 22, 1));
         RigidBody rigidBody = new RigidBody();
-        spriteRenderer.setSprite(sprites.getSprite(textureIndex));
+        // spriteRenderer.setSprite(sprites.getSprite(textureIndex));
 
         sandwich1 = new GameObject("sandwich1", new Transform(new Vector2f(200, 200), new Vector2f(300, 300)), 2);
         SpriteRenderer spriteRenderer1 = new SpriteRenderer();
@@ -65,7 +67,12 @@ public class WorldEditorScene extends Scene {
 
         addGameObjectToScene(sandwich);
         addGameObjectToScene(sandwich1);
-        this.activeGameObject = sandwich;
+
+        Square square = new Square("square", new Vector4f(244f, 11f, 2f, 255f));
+        square.setTransform(new Transform(new Vector2f(600, 300), new Vector2f(100, 100)));
+        addGameObjectToScene(square);
+
+        this.activeGameObject = square;
     }
 
     private void loadResources() {
