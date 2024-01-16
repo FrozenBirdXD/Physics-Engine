@@ -20,7 +20,8 @@ public class MouseHelper {
 
     public void update(float dt) {
         if (holdingGameObject != null) {
-            holdingGameObject.transform.setPosition(MouseListener.getOrthoX() - 16, MouseListener.getOrthoY() - 16);
+            holdingGameObject.getTransform().setPosition(MouseListener.getOrthoX() - 16,
+                    MouseListener.getOrthoY() - 16);
 
             if (MouseListener.mouseButtonDown(GLFW_MOUSE_BUTTON_LEFT)) {
                 placeObject();

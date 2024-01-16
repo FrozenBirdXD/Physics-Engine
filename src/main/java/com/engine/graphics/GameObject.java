@@ -15,7 +15,7 @@ public class GameObject {
     private String name;
     private List<Component> components;
     private int zIndex;
-    public Transform transform;
+    private Transform transform;
 
     public GameObject(String name) {
         init(name, new Transform(), 0);
@@ -108,7 +108,23 @@ public class GameObject {
         return this.name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getZIndex() {
         return this.zIndex;
+    }
+
+    public void setZIndex(int zIndex) {
+        this.zIndex = zIndex;
+    }
+
+    public Transform getTransform() {
+        return this.transform;
+    }
+
+    public void setTransform(Transform transform) {
+        this.transform = transform;
     }
 }
