@@ -220,10 +220,10 @@ public class RenderBatch implements Comparable<RenderBatch> {
             }
 
             // Load position
-            vertices[offset] = sprite.gameObject.transform.getPositionX()
-                    + (xAdd * sprite.gameObject.transform.getScaleX());
-            vertices[offset + 1] = sprite.gameObject.transform.getPositionY()
-                    + (yAdd * sprite.gameObject.transform.getScaleY());
+            vertices[offset] = sprite.gameObject.getTransform().getPositionX()
+                    + (xAdd * sprite.gameObject.getTransform().getScaleX());
+            vertices[offset + 1] = sprite.gameObject.getTransform().getPositionY()
+                    + (yAdd * sprite.gameObject.getTransform().getScaleY());
 
             // Load color
             vertices[offset + 2] = color.x;

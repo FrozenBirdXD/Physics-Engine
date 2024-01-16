@@ -140,6 +140,9 @@ public class Window {
     }
 
     public void close() {
+        // save scene to file
+        currentScene.saveAndExit();
+
         // free the window callbacks and destroy the window
         glfwFreeCallbacks(glfwWindow);
         glfwDestroyWindow(glfwWindow);
@@ -147,6 +150,7 @@ public class Window {
         // terminate GLFW and free the error callback
         glfwTerminate();
         glfwSetErrorCallback(null).free();
+        imGuiLayer.destroyImGui();
     }
 
     private boolean processCloseRequest() {
@@ -193,9 +197,6 @@ public class Window {
             dt = endTime - beginTime;
             beginTime = endTime;
         }
-
-        // save scene to file
-        currentScene.saveAndExit();
     }
 
     public void setScene(Scene scene) {
@@ -203,7 +204,7 @@ public class Window {
             return;
         }
         currentScene = scene;
-        currentScene.load();
+        // currentScene.load();
         currentScene.init();
         currentScene.start();
     }
