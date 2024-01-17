@@ -8,7 +8,7 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import com.engine.graphics.Window;
-import com.engine.graphics.shapes.Line2D;
+import com.engine.graphics.shapes.Line;
 import com.engine.graphics.utils.AssetPool;
 import com.engine.graphics.utils.ColorConversion;
 import com.engine.graphics.utils.Colors;
@@ -17,7 +17,7 @@ import static org.lwjgl.opengl.GL33.*;
 
 public class DebugDraw {
     private static int MAX_LINES = 500;
-    private static List<Line2D> lines = new ArrayList<>();
+    private static List<Line> lines = new ArrayList<>();
     // 6 floats per vertex, 2 vertices per line
     private static float[] vertexArray = new float[MAX_LINES * 6 * 2];
     private static Shaders shader = AssetPool.getShader("src/main/assets/shaders/debugLine2D.glsl");
@@ -67,7 +67,7 @@ public class DebugDraw {
         }
 
         int index = 0;
-        for (Line2D line : lines) {
+        for (Line line : lines) {
             for (int i = 0; i < 2; i++) {
                 Vector2f position = i == 0 ? line.getFrom() : line.getTo();
                 Vector3f color = line.getColor();
@@ -127,6 +127,6 @@ public class DebugDraw {
             return;
         }
 
-        DebugDraw.lines.add(new Line2D(from, to, color, lifetime));
+        DebugDraw.lines.add(new Line(from, to, color, lifetime));
     }
 }
