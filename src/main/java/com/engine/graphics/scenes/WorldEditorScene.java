@@ -119,8 +119,8 @@ public class WorldEditorScene extends Scene {
             ImGui.pushID(i);
 
             // ImGui uses Id system to determine if something is clicked or not
-            if (ImGui.imageButton(id, spriteWidth, spriteHeight, textureCoords[0].x, textureCoords[0].y,
-                    textureCoords[2].x, textureCoords[2].y)) {
+            if (ImGui.imageButton(id, spriteWidth, spriteHeight, textureCoords[2].x, textureCoords[0].y,
+                    textureCoords[0].x, textureCoords[2].y)) {
                 GameObject object = Prefabs.createSpriteObjectFromTexture(sprite, spriteWidth, spriteHeight);
                 mouseHelper.pickupObject(object);
             }
