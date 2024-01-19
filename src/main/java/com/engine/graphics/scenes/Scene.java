@@ -7,9 +7,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.engine.graphics.Camera;
 import com.engine.graphics.GameObject;
 import com.engine.graphics.components.Component;
+import com.engine.graphics.renderer.Camera;
 import com.engine.graphics.renderer.Renderer;
 import com.engine.graphics.serialization.ComponentDeserializer;
 import com.engine.graphics.serialization.GameObjectDeserializer;

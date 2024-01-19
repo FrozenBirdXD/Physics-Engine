@@ -3,13 +3,13 @@ package com.engine.graphics.scenes;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
-import com.engine.graphics.Camera;
 import com.engine.graphics.GameObject;
 import com.engine.graphics.components.RigidBody;
 import com.engine.graphics.components.Sprite;
 import com.engine.graphics.components.SpriteRenderer;
 import com.engine.graphics.components.Spritesheet;
 import com.engine.graphics.listeners.MouseListener;
+import com.engine.graphics.renderer.Camera;
 import com.engine.graphics.renderer.DebugDraw;
 import com.engine.graphics.renderer.Texture;
 import com.engine.graphics.serialization.ComponentDeserializer;
