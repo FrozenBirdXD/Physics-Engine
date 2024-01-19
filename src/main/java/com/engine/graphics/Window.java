@@ -204,7 +204,7 @@ public class Window {
             return;
         }
         currentScene = scene;
-        // currentScene.load();
+        currentScene.load();
         currentScene.init();
         currentScene.start();
     }
