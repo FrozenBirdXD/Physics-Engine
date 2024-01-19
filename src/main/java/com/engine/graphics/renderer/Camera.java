@@ -6,7 +6,8 @@ import org.joml.Vector3f;
 
 public class Camera {
     private Matrix4f projectionMatrix, viewMatrix, inverseProjectionMatrix, inverseViewMatrix;
-    public Vector2f position;
+    private Vector2f projectionSize = new Vector2f(32.0f * 40.0f, 32.0f * 21.0f);
+    private Vector2f position;
 
     public Camera(Vector2f position) {
         this.position = position;
@@ -22,9 +23,10 @@ public class Camera {
         // (0, 1920, 0, 1080, 0.5, 100) as inputs, this means that the camera can "see"
         // any objects that are between x-coordinates 0 and 1920, and y-coordinates 0
         // and 1080, and z-coordinates 0.5-100
-        
+
         // 32.0f * 40.0f is the width of the camera
-        projectionMatrix.ortho(0.0f, 32.0f * 40.0f, 0.0f, 32.0f * 21.0f, 0.0f, 100.0f);
+        // tells how big desired size of screen in in pixels or world units
+        projectionMatrix.ortho(0.0f, projectionSize.x, 0.0f, projectionSize.y, 0.0f, 100.0f);
         projectionMatrix.invert(inverseProjectionMatrix);
     }
 
@@ -49,5 +51,13 @@ public class Camera {
 
     public Matrix4f getInverseProjectionMatrix() {
         return this.inverseProjectionMatrix;
+    }
+
+    public Vector2f getPosition() {
+        return this.position;
+    }
+
+    public Vector2f getProjectionSize() {
+        return this.projectionSize;
     }
 }
