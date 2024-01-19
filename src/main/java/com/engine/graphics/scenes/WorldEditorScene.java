@@ -5,6 +5,7 @@ import org.joml.Vector4f;
 
 import com.engine.graphics.GameObject;
 import com.engine.graphics.components.GridLines;
+import com.engine.graphics.components.MouseHelper;
 import com.engine.graphics.components.RigidBody;
 import com.engine.graphics.components.Sprite;
 import com.engine.graphics.components.SpriteRenderer;
@@ -19,7 +20,6 @@ import com.engine.graphics.shapes.Square;
 import com.engine.graphics.utils.AssetPool;
 import com.engine.graphics.utils.ColorConversion;
 import com.engine.graphics.utils.Colors;
-import com.engine.graphics.utils.MouseHelper;
 import com.engine.graphics.utils.Prefabs;
 import com.engine.graphics.utils.Transform;
 

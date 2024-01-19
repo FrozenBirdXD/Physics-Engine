@@ -1,11 +1,11 @@
-package com.engine.graphics.utils;
+package com.engine.graphics.components;
 
 import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_LEFT;
 
 import com.engine.graphics.GameObject;
 import com.engine.graphics.Window;
-import com.engine.graphics.components.Component;
 import com.engine.graphics.listeners.MouseListener;
+import com.engine.graphics.utils.Settings;
 
 public class MouseHelper extends Component {
     GameObject holdingGameObject = null;
