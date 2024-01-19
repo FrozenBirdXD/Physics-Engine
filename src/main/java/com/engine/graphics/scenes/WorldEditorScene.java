@@ -4,6 +4,7 @@ import org.joml.Vector2f;
 import org.joml.Vector4f;
 
 import com.engine.graphics.GameObject;
+import com.engine.graphics.components.GridLines;
 import com.engine.graphics.components.RigidBody;
 import com.engine.graphics.components.Sprite;
 import com.engine.graphics.components.SpriteRenderer;
@@ -29,7 +30,7 @@ public class WorldEditorScene extends Scene {
 
     private Spritesheet sprites;
     private int textureIndex;
-    private MouseHelper mouseHelper = new MouseHelper();
+    private GameObject testing = new GameObject("helper for Scene", new Transform(new Vector2f()), 0);
 
     public WorldEditorScene() {
 
@@ -37,9 +38,11 @@ public class WorldEditorScene extends Scene {
 
     @Override
     public void init() {
+        testing.addComponent(new MouseHelper());
+        testing.addComponent(new GridLines());
+
         loadResources();
         this.camera = new Camera(new Vector2f(0, 0));
-        DebugDraw.addLine2D(new Vector2f(0, 0), new Vector2f(800, 800), ColorConversion.colorToRGB(Colors.Red), 320);
 
         if (loadedScene) {
             this.activeGameObject = gameObjects.get(0);
@@ -48,25 +51,25 @@ public class WorldEditorScene extends Scene {
         GameObject sandwich;
         GameObject sandwich1;
 
-        sandwich = new GameObject("sandwich", new Transform(new Vector2f(0, 0), new Vector2f(300, 300)), 2);
-        SpriteRenderer spriteRenderer = new SpriteRenderer();
-        spriteRenderer.setColor(new Vector4f(222, 222, 22, 1));
-        RigidBody rigidBody = new RigidBody();
+        // sandwich = new GameObject("sandwich", new Transform(new Vector2f(0, 0), new Vector2f(300, 300)), 2);
+        // SpriteRenderer spriteRenderer = new SpriteRenderer();
+        // spriteRenderer.setColor(new Vector4f(222, 222, 22, 1));
+        // RigidBody rigidBody = new RigidBody();
         // spriteRenderer.setSprite(sprites.getSprite(textureIndex));
 
-        sandwich1 = new GameObject("sandwich1", new Transform(new Vector2f(200, 200), new Vector2f(300, 300)), 2);
-        SpriteRenderer spriteRenderer1 = new SpriteRenderer();
-        RigidBody rigidBody1 = new RigidBody();
-        spriteRenderer1.setSprite(sprites.getSprite(textureIndex + 1));
+        // sandwich1 = new GameObject("sandwich1", new Transform(new Vector2f(200, 200), new Vector2f(300, 300)), 2);
+        // SpriteRenderer spriteRenderer1 = new SpriteRenderer();
+        // RigidBody rigidBody1 = new RigidBody();
+        // spriteRenderer1.setSprite(sprites.getSprite(textureIndex + 1));
 
-        sandwich.addComponent(spriteRenderer);
-        sandwich.addComponent(rigidBody);
+        // sandwich.addComponent(spriteRenderer);
+        // sandwich.addComponent(rigidBody);
 
-        sandwich1.addComponent(spriteRenderer1);
-        sandwich1.addComponent(rigidBody1);
+        // sandwich1.addComponent(spriteRenderer1);
+        // sandwich1.addComponent(rigidBody1);
 
-        addGameObjectToScene(sandwich);
-        addGameObjectToScene(sandwich1);
+        // addGameObjectToScene(sandwich);
+        // addGameObjectToScene(sandwich1);
 
         Square square = new Square("square", new Vector4f(244f, 11f, 2f, 255f));
         square.setTransform(new Transform(new Vector2f(600, 300), new Vector2f(100, 100)));
@@ -88,7 +91,7 @@ public class WorldEditorScene extends Scene {
 
     @Override
     public void update(float dt) {
-        mouseHelper.update(dt);
+        testing.update(dt);
         for (GameObject object : this.gameObjects) {
             object.update(dt);
         }
@@ -121,8 +124,8 @@ public class WorldEditorScene extends Scene {
             // ImGui uses Id system to determine if something is clicked or not
             if (ImGui.imageButton(id, spriteWidth, spriteHeight, textureCoords[2].x, textureCoords[0].y,
                     textureCoords[0].x, textureCoords[2].y)) {
-                GameObject object = Prefabs.createSpriteObjectFromTexture(sprite, spriteWidth, spriteHeight);
-                mouseHelper.pickupObject(object);
+                GameObject object = Prefabs.createSpriteObjectFromTexture(sprite, 32, 32);
+                testing.getComponent(MouseHelper.class).pickupObject(object);
             }
 
             ImGui.popID();
