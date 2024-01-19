@@ -44,7 +44,7 @@ public class DebugDraw {
         glEnableVertexAttribArray(1);
 
         // set line width
-        glLineWidth(3);
+        glLineWidth(1);
     }
 
     public static void beginFrame() {
