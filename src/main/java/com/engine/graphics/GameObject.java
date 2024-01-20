@@ -12,7 +12,7 @@ public class GameObject {
     private static int idCounter = 0;
 
     private int uid = -1;
-    private String name;
+    protected String name;
     private List<Component> components;
     private int zIndex;
     private Transform transform;

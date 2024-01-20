@@ -1,7 +1,6 @@
 package com.engine.graphics.shapes;
 
 import org.joml.Vector2f;
-import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 import com.engine.graphics.utils.ColorConversion;
@@ -21,6 +20,19 @@ public class Line extends Shape {
     }
 
     public Line(Vector2f from, Vector2f to, Vector4f color, int lifetime) {
+        this("Line", from, to, color, lifetime);
+    }
+
+    public Line(String name, Vector2f from, Vector2f to) {
+        this(name, from, to, ColorConversion.colorToRGBA(Colors.Black), 1);
+    }
+
+    public Line(String name, Vector2f from, Vector2f to, Vector4f color) {
+        this(name, from, to, color, 1);
+    }
+
+    public Line(String name, Vector2f from, Vector2f to, Vector4f color, int lifetime) {
+        this.name = name;
         this.from = from;
         this.to = to;
         this.color = color;
