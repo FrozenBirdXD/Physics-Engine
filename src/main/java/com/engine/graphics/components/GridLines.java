@@ -30,12 +30,12 @@ public class GridLines extends Component {
 
             if (i < numLinesVertical) {
                 DebugDraw.addLine(new Line(new Vector2f(x, firstY), new Vector2f(x, firstY + height),
-                        ColorConversion.colorToRGB(Colors.Black)));
+                        ColorConversion.colorToRGBA(Colors.Black)));
             }
 
             if (i < numLinesHorizontal) {
                 DebugDraw.addLine(new Line(new Vector2f(firstX, y), new Vector2f(firstX + width, y),
-                        ColorConversion.colorToRGB(Colors.Black)));
+                        ColorConversion.colorToRGBA(Colors.Black)));
             }
         }
 

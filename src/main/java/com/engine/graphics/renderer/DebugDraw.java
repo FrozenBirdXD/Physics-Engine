@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import com.engine.graphics.Window;
 import com.engine.graphics.shapes.Line;
@@ -71,7 +72,7 @@ public class DebugDraw {
         for (Line line : lines) {
             for (int i = 0; i < 2; i++) {
                 Vector2f position = i == 0 ? line.getFrom() : line.getTo();
-                Vector3f color = line.getColor();
+                Vector4f color = line.getColor();
 
                 // load position
                 vertexArray[index] = position.x;
@@ -127,7 +128,7 @@ public class DebugDraw {
     // Rectangle methods
     // =============================================================
 
-    public static void addRectangle(Vector2f center, Vector2f dimensions, float rotation, Vector3f color,
+    public static void addRectangle(Vector2f center, Vector2f dimensions, float rotation, Vector4f color,
             int lifetime) {
         // get center, subtract half of the size -> bottom left corner
         Vector2f min = new Vector2f(center).sub(new Vector2f(dimensions).div(2.0f));

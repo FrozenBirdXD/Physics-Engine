@@ -2,25 +2,25 @@ package com.engine.graphics.shapes;
 
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import com.engine.graphics.utils.ColorConversion;
 import com.engine.graphics.utils.Colors;
 
-public class Line {
+public class Line extends Shape {
     private Vector2f from;
     private Vector2f to;
-    private Vector3f color;
     private int lifetime;
 
     public Line(Vector2f from, Vector2f to) {
-        this(from, to, ColorConversion.colorToRGB(Colors.Black), 1);
+        this(from, to, ColorConversion.colorToRGBA(Colors.Black), 1);
     }
 
-    public Line(Vector2f from, Vector2f to, Vector3f color) {
+    public Line(Vector2f from, Vector2f to, Vector4f color) {
         this(from, to, color, 1);
     }
 
-    public Line(Vector2f from, Vector2f to, Vector3f color, int lifetime) {
+    public Line(Vector2f from, Vector2f to, Vector4f color, int lifetime) {
         this.from = from;
         this.to = to;
         this.color = color;
@@ -48,11 +48,11 @@ public class Line {
         this.to = to;
     }
 
-    public Vector3f getColor() {
+    public Vector4f getColor() {
         return this.color;
     }
 
-    public void setColor(Vector3f color) {
+    public void setColor(Vector4f color) {
         this.color = color;
     }
 }

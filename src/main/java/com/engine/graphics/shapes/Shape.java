@@ -10,8 +10,16 @@ import com.engine.graphics.renderer.Texture;
 import com.engine.graphics.utils.AssetPool;
 
 public abstract class Shape extends GameObject {
-    private Vector4f color;
+    protected Vector4f color;
     private SpriteRenderer spriteRenderer;
+
+    public Shape(Vector4f color) {
+        this("Shape", color);
+    }
+
+    public Shape() {
+        this("Shape", new Vector4f(1, 1, 1, 0));
+    }
 
     public Shape(String name) {
         this(name, new Vector4f(1, 1, 1, 0));
