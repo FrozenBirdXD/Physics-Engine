@@ -5,14 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.joml.Vector2f;
-import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 import com.engine.graphics.Window;
 import com.engine.graphics.shapes.Line;
+import com.engine.graphics.shapes.Rectangle;
 import com.engine.graphics.utils.AssetPool;
-import com.engine.graphics.utils.ColorConversion;
-import com.engine.graphics.utils.Colors;
 import com.engine.math.FrozenMath;
 
 import static org.lwjgl.opengl.GL33.*;
@@ -112,10 +110,6 @@ public class DebugDraw {
         shader.detach();
     }
 
-    // =============================================================
-    // Line methods
-    // =============================================================
-
     public static void addLine(Line line) {
         if (lines.size() >= MAX_LINES) {
             return;
@@ -124,16 +118,11 @@ public class DebugDraw {
         DebugDraw.lines.add(line);
     }
 
-    // =============================================================
-    // Rectangle methods
-    // =============================================================
-
-    public static void addRectangle(Vector2f center, Vector2f dimensions, float rotation, Vector4f color,
-            int lifetime) {
+    public static void addRectangle(Rectangle rectangle) {
         // get center, subtract half of the size -> bottom left corner
-        Vector2f min = new Vector2f(center).sub(new Vector2f(dimensions).div(2.0f));
+        Vector2f min = new Vector2f(rectangle.getCenter()).sub(new Vector2f(rectangle.getDimensions()).div(2.0f));
         // top right corner
-        Vector2f max = new Vector2f(center).add(new Vector2f(dimensions).div(2.0f));
+        Vector2f max = new Vector2f(rectangle.getCenter()).add(new Vector2f(rectangle.getDimensions()).div(2.0f));
 
         Vector2f[] vertices = {
                 new Vector2f(min.x, min.y), // bottom left
@@ -142,11 +131,14 @@ public class DebugDraw {
                 new Vector2f(max.x, min.y), // bottom right
         };
 
-        if (rotation != 0.0f) {
+        if (rectangle.getRotation() != 0.0f) {
             for (Vector2f vec : vertices) {
-                FrozenMath.rotate(vec, rotation, center);
+                FrozenMath.rotate(vec, rectangle.getRotation(), rectangle.getCenter());
             }
         }
+
+        Vector4f color = rectangle.getColor();
+        int lifetime = rectangle.getLifetime();
 
         addLine(new Line(vertices[0], vertices[1], color, lifetime));
         addLine(new Line(vertices[1], vertices[2], color, lifetime));
