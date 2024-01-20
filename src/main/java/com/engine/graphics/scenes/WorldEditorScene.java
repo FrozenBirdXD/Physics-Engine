@@ -16,6 +16,8 @@ import com.engine.graphics.renderer.DebugDraw;
 import com.engine.graphics.renderer.Texture;
 import com.engine.graphics.serialization.ComponentDeserializer;
 import com.engine.graphics.serialization.GameObjectDeserializer;
+import com.engine.graphics.shapes.Line;
+import com.engine.graphics.shapes.Rectangle;
 import com.engine.graphics.shapes.Square;
 import com.engine.graphics.utils.AssetPool;
 import com.engine.graphics.utils.ColorConversion;
@@ -92,6 +94,8 @@ public class WorldEditorScene extends Scene {
     @Override
     public void update(float dt) {
         testing.update(dt);
+        DebugDraw.addLine(new Line(new Vector2f(300, 300), new Vector2f(330, 330)));
+        DebugDraw.addRectangle(new Rectangle(new Vector2f(500, 500), new Vector2f(100, 100)));
         for (GameObject object : this.gameObjects) {
             object.update(dt);
         }
