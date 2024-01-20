@@ -3,11 +3,22 @@ package com.engine.graphics.shapes;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
+import com.engine.graphics.utils.ColorConversion;
+import com.engine.graphics.utils.Colors;
+
 public class Line {
     private Vector2f from;
     private Vector2f to;
     private Vector3f color;
     private int lifetime;
+
+    public Line(Vector2f from, Vector2f to) {
+        this(from, to, ColorConversion.colorToRGB(Colors.Black), 1);
+    }
+
+    public Line(Vector2f from, Vector2f to, Vector3f color) {
+        this(from, to, color, 1);
+    }
 
     public Line(Vector2f from, Vector2f to, Vector3f color, int lifetime) {
         this.from = from;

@@ -115,20 +115,12 @@ public class DebugDraw {
     // Line methods
     // =============================================================
 
-    public static void addLine(Vector2f from, Vector2f to) {
-        addLine(from, to, ColorConversion.colorToRGB(Colors.Red), 1);
-    }
-
-    public static void addLine(Vector2f from, Vector2f to, Vector3f color) {
-        addLine(from, to, color, 1);
-    }
-
-    public static void addLine(Vector2f from, Vector2f to, Vector3f color, int lifetime) {
+    public static void addLine(Line line) {
         if (lines.size() >= MAX_LINES) {
             return;
         }
 
-        DebugDraw.lines.add(new Line(from, to, color, lifetime));
+        DebugDraw.lines.add(line);
     }
 
     // =============================================================
@@ -155,9 +147,9 @@ public class DebugDraw {
             }
         }
 
-        addLine(vertices[0], vertices[1], color, lifetime);
-        addLine(vertices[1], vertices[2], color, lifetime);
-        addLine(vertices[2], vertices[3], color, lifetime);
-        addLine(vertices[3], vertices[0], color, lifetime);
+        addLine(new Line(vertices[0], vertices[1], color, lifetime));
+        addLine(new Line(vertices[1], vertices[2], color, lifetime));
+        addLine(new Line(vertices[2], vertices[3], color, lifetime));
+        addLine(new Line(vertices[3], vertices[0], color, lifetime));
     }
 }

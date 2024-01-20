@@ -4,6 +4,7 @@ import org.joml.Vector2f;
 
 import com.engine.graphics.Window;
 import com.engine.graphics.renderer.DebugDraw;
+import com.engine.graphics.shapes.Line;
 import com.engine.graphics.utils.ColorConversion;
 import com.engine.graphics.utils.Colors;
 import com.engine.graphics.utils.Settings;
@@ -28,13 +29,13 @@ public class GridLines extends Component {
             int y = firstY + Settings.GRID_HEIGHT * i;
 
             if (i < numLinesVertical) {
-                DebugDraw.addLine(new Vector2f(x, firstY), new Vector2f(x, firstY + height),
-                        ColorConversion.colorToRGB(Colors.Black));
+                DebugDraw.addLine(new Line(new Vector2f(x, firstY), new Vector2f(x, firstY + height),
+                        ColorConversion.colorToRGB(Colors.Black)));
             }
 
             if (i < numLinesHorizontal) {
-                DebugDraw.addLine(new Vector2f(firstX, y), new Vector2f(firstX + width, y),
-                        ColorConversion.colorToRGB(Colors.Black));
+                DebugDraw.addLine(new Line(new Vector2f(firstX, y), new Vector2f(firstX + width, y),
+                        ColorConversion.colorToRGB(Colors.Black)));
             }
         }
 
