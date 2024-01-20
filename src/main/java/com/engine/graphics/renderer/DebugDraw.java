@@ -12,6 +12,7 @@ import com.engine.graphics.shapes.Line;
 import com.engine.graphics.utils.AssetPool;
 import com.engine.graphics.utils.ColorConversion;
 import com.engine.graphics.utils.Colors;
+import com.engine.math.FrozenMath;
 
 import static org.lwjgl.opengl.GL33.*;
 
@@ -111,22 +112,52 @@ public class DebugDraw {
     }
 
     // =============================================================
-    // Line2D methods
+    // Line methods
     // =============================================================
 
-    public static void addLine2D(Vector2f from, Vector2f to) {
-        addLine2D(from, to, ColorConversion.colorToRGB(Colors.Red), 1);
+    public static void addLine(Vector2f from, Vector2f to) {
+        addLine(from, to, ColorConversion.colorToRGB(Colors.Red), 1);
     }
 
-    public static void addLine2D(Vector2f from, Vector2f to, Vector3f color) {
-        addLine2D(from, to, color, 1);
+    public static void addLine(Vector2f from, Vector2f to, Vector3f color) {
+        addLine(from, to, color, 1);
     }
 
-    public static void addLine2D(Vector2f from, Vector2f to, Vector3f color, int lifetime) {
+    public static void addLine(Vector2f from, Vector2f to, Vector3f color, int lifetime) {
         if (lines.size() >= MAX_LINES) {
             return;
         }
 
         DebugDraw.lines.add(new Line(from, to, color, lifetime));
+    }
+
+    // =============================================================
+    // Rectangle methods
+    // =============================================================
+
+    public static void addRectangle(Vector2f center, Vector2f dimensions, float rotation, Vector3f color,
+            int lifetime) {
+        // get center, subtract half of the size -> bottom left corner
+        Vector2f min = new Vector2f(center).sub(new Vector2f(dimensions).div(2.0f));
+        // top right corner
+        Vector2f max = new Vector2f(center).add(new Vector2f(dimensions).div(2.0f));
+
+        Vector2f[] vertices = {
+                new Vector2f(min.x, min.y), // bottom left
+                new Vector2f(min.x, max.y), // top left
+                new Vector2f(max.x, max.y), // top right
+                new Vector2f(max.x, min.y), // bottom right
+        };
+
+        if (rotation != 0.0f) {
+            for (Vector2f vec : vertices) {
+                FrozenMath.rotate(vec, rotation, center);
+            }
+        }
+
+        addLine(vertices[0], vertices[1], color, lifetime);
+        addLine(vertices[1], vertices[2], color, lifetime);
+        addLine(vertices[2], vertices[3], color, lifetime);
+        addLine(vertices[3], vertices[0], color, lifetime);
     }
 }
