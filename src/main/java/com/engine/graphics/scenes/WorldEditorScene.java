@@ -16,6 +16,7 @@ import com.engine.graphics.renderer.DebugDraw;
 import com.engine.graphics.renderer.Texture;
 import com.engine.graphics.serialization.ComponentDeserializer;
 import com.engine.graphics.serialization.GameObjectDeserializer;
+import com.engine.graphics.shapes.Circle;
 import com.engine.graphics.shapes.Line;
 import com.engine.graphics.shapes.Rectangle;
 import com.engine.graphics.shapes.Square;
@@ -53,13 +54,15 @@ public class WorldEditorScene extends Scene {
         GameObject sandwich;
         GameObject sandwich1;
 
-        // sandwich = new GameObject("sandwich", new Transform(new Vector2f(0, 0), new Vector2f(300, 300)), 2);
+        // sandwich = new GameObject("sandwich", new Transform(new Vector2f(0, 0), new
+        // Vector2f(300, 300)), 2);
         // SpriteRenderer spriteRenderer = new SpriteRenderer();
         // spriteRenderer.setColor(new Vector4f(222, 222, 22, 1));
         // RigidBody rigidBody = new RigidBody();
         // spriteRenderer.setSprite(sprites.getSprite(textureIndex));
 
-        // sandwich1 = new GameObject("sandwich1", new Transform(new Vector2f(200, 200), new Vector2f(300, 300)), 2);
+        // sandwich1 = new GameObject("sandwich1", new Transform(new Vector2f(200, 200),
+        // new Vector2f(300, 300)), 2);
         // SpriteRenderer spriteRenderer1 = new SpriteRenderer();
         // RigidBody rigidBody1 = new RigidBody();
         // spriteRenderer1.setSprite(sprites.getSprite(textureIndex + 1));
@@ -94,8 +97,9 @@ public class WorldEditorScene extends Scene {
     @Override
     public void update(float dt) {
         testing.update(dt);
-        DebugDraw.addLine(new Line(new Vector2f(300, 300), new Vector2f(330, 330)));
+        DebugDraw.addLine(new Line(new Vector2f(300, 300), new Vector2f(330, 30)));
         DebugDraw.addRectangle(new Rectangle(new Vector2f(500, 500), new Vector2f(100, 100)));
+        DebugDraw.addCircle(new Circle(new Vector2f(400, 400), 300));
         for (GameObject object : this.gameObjects) {
             object.update(dt);
         }
