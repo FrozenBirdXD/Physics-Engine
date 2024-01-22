@@ -8,6 +8,7 @@ import org.joml.Vector2f;
 import org.joml.Vector4f;
 
 import com.engine.graphics.Window;
+import com.engine.graphics.shapes.Circle;
 import com.engine.graphics.shapes.Line;
 import com.engine.graphics.shapes.Rectangle;
 import com.engine.graphics.utils.AssetPool;
@@ -61,6 +62,7 @@ public class DebugDraw {
         }
     }
 
+    //TODO: Set line width
     public static void draw() {
         if (lines.size() <= 0) {
             return;
@@ -144,5 +146,31 @@ public class DebugDraw {
         addLine(new Line(vertices[1], vertices[2], color, lifetime));
         addLine(new Line(vertices[2], vertices[3], color, lifetime));
         addLine(new Line(vertices[3], vertices[0], color, lifetime));
+    }
+
+    public static void addCircle(Circle circle) {
+        List<Vector2f> circlePoints = calculateCirclePoints(circle.getCenter(), circle.getRadius(),
+                circle.getSegments());
+
+        for (int i = 0; i < circlePoints.size() - 1; i++) {
+            addLine(new Line(circlePoints.get(i), circlePoints.get(i + 1), circle.getColor(), circle.getLifetime()));
+        }
+        // last line segment
+        addLine(new Line(circlePoints.get(circlePoints.size() - 1), circlePoints.get(0), circle.getColor(),
+                circle.getLifetime()));
+    }
+
+    private static List<Vector2f> calculateCirclePoints(Vector2f center, float radius, int segments) {
+        List<Vector2f> points = new ArrayList<>();
+        float angleIncrement = 360.0f / segments;
+
+        for (int i = 0; i < segments; i++) {
+            float angle = (float) Math.toRadians(angleIncrement * i);
+            float x = center.x + radius * (float) Math.cos(angle);
+            float y = center.y + radius * (float) Math.sin(angle);
+            points.add(new Vector2f(x, y));
+        }
+
+        return points;
     }
 }
