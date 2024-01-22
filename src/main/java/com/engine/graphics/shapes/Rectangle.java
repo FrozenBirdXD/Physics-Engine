@@ -37,19 +37,6 @@ public class Rectangle extends Shape {
         this("Rectangle", center, dimensions, rotation, color, lifetime);
     }
 
-    public Rectangle(String name, Vector2f center, Vector2f dimensions) {
-        this(name, center, dimensions, 0.0f, ColorConversion.colorToRGBA(Colors.Black), 1);
-    }
-
-    public Rectangle(String name, Vector2f center, Vector2f dimensions, float rotation) {
-        this(name, center, dimensions, rotation, ColorConversion.colorToRGBA(Colors.Black), 1);
-    }
-
-    public Rectangle(String name, Vector2f center, Vector2f dimensions, float rotation, Vector4f color) {
-        this(name, center, dimensions, rotation, color, 1);
-    }
-
-
     public Vector2f getCenter() {
         return center;
     }
