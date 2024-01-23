@@ -97,9 +97,17 @@ public class WorldEditorScene extends Scene {
     @Override
     public void update(float dt) {
         testing.update(dt);
-        DebugDraw.addLine(new Line(new Vector2f(300, 300), new Vector2f(330, 30)));
-        DebugDraw.addRectangle(new Rectangle(new Vector2f(500, 500), new Vector2f(100, 100)));
-        DebugDraw.addCircle(new Circle(new Vector2f(400, 400), 300));
+        DebugDraw.addLine(
+                new Line(new Vector2f(300, 300), new Vector2f(330, 30), ColorConversion.colorToRGBA(Colors.Red), 1,
+                        10));
+        Rectangle rec = new Rectangle(new Vector2f(500, 500), new Vector2f(100, 100));
+        rec.setLineWidth(5);
+        rec.setColor(ColorConversion.colorToRGBA(Colors.Red));
+        DebugDraw.addRectangle(rec);
+        Circle circle = new Circle(new Vector2f(400, 400), 300);
+        circle.setLineWidth(1);
+        circle.setColor(ColorConversion.colorToRGBA(Colors.Red));
+        DebugDraw.addCircle(circle);
         for (GameObject object : this.gameObjects) {
             object.update(dt);
         }

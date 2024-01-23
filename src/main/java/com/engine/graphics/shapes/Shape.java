@@ -11,7 +11,13 @@ import com.engine.graphics.utils.AssetPool;
 
 public abstract class Shape extends GameObject {
     protected Vector4f color;
+    protected int lineWidth = 1;
     private SpriteRenderer spriteRenderer;
+
+    public Shape(String name, Vector4f color, int lineWidth) {
+        this(name, color);
+        this.lineWidth = lineWidth;
+    }
 
     public Shape(Vector4f color) {
         this("Shape", color);
@@ -56,4 +62,13 @@ public abstract class Shape extends GameObject {
     public Vector4f getColor() {
         return this.color;
     }
+
+    public int getLineWidth() {
+        return lineWidth;
+    }
+
+    public void setLineWidth(int lineWidth) {
+        this.lineWidth = lineWidth;
+    }
+
 }

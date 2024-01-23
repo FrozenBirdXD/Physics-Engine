@@ -23,20 +23,29 @@ public class Line extends Shape {
         this("Line", from, to, color, lifetime);
     }
 
+    public Line(Vector2f from, Vector2f to, Vector4f color, int lifetime, int lineWidth) {
+        this("Line", from, to, color, lifetime, lineWidth);
+    }
+
     public Line(String name, Vector2f from, Vector2f to) {
         this(name, from, to, ColorConversion.colorToRGBA(Colors.Black), 1);
     }
 
     public Line(String name, Vector2f from, Vector2f to, Vector4f color) {
-        this(name, from, to, color, 1);
+        this(name, from, to, color, 1, 1);
     }
 
     public Line(String name, Vector2f from, Vector2f to, Vector4f color, int lifetime) {
+        this(name, from, to, color, lifetime, 1);
+    }
+
+    public Line(String name, Vector2f from, Vector2f to, Vector4f color, int lifetime, int lineWidth) {
         this.name = name;
         this.from = from;
         this.to = to;
         this.color = color;
         this.lifetime = lifetime;
+        this.lineWidth = lineWidth;
     }
 
     public int beginFrame() {
@@ -58,13 +67,5 @@ public class Line extends Shape {
 
     public void setTo(Vector2f to) {
         this.to = to;
-    }
-
-    public Vector4f getColor() {
-        return this.color;
-    }
-
-    public void setColor(Vector4f color) {
-        this.color = color;
     }
 }

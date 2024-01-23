@@ -10,6 +10,8 @@ import com.engine.graphics.utils.Colors;
 import com.engine.graphics.utils.Settings;
 
 public class GridLines extends Component {
+    private int lineWidth = 1;
+
     @Override
     public void update(float dt) {
         Vector2f cameraPos = Window.get().getScene().getCamera().getPosition();
@@ -30,14 +32,22 @@ public class GridLines extends Component {
 
             if (i < numLinesVertical) {
                 DebugDraw.addLine(new Line(new Vector2f(x, firstY), new Vector2f(x, firstY + height),
-                        ColorConversion.colorToRGBA(Colors.Black)));
+                        ColorConversion.colorToRGBA(Colors.Black), 1, lineWidth));
             }
 
             if (i < numLinesHorizontal) {
                 DebugDraw.addLine(new Line(new Vector2f(firstX, y), new Vector2f(firstX + width, y),
-                        ColorConversion.colorToRGBA(Colors.Black)));
+                        ColorConversion.colorToRGBA(Colors.Black), 1, lineWidth));
             }
         }
-
     }
+
+    public int getLineWidth() {
+        return lineWidth;
+    }
+
+    public void setLineWidth(int lineWidth) {
+        this.lineWidth = lineWidth;
+    }
+
 }

@@ -2,6 +2,7 @@ package com.engine.graphics.renderer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import org.joml.Vector2f;
@@ -27,6 +28,8 @@ public class DebugDraw {
     private static int vboID;
     private static boolean started = false;
 
+    private static int lineWidth = 1;
+
     public static void start() {
         // generate vao
         vaoID = glGenVertexArrays();
@@ -43,9 +46,7 @@ public class DebugDraw {
 
         glVertexAttribPointer(1, 3, GL_FLOAT, false, 6 * Float.BYTES, 3 * Float.BYTES);
         glEnableVertexAttribArray(1);
-
-        // set line width
-        glLineWidth(1);
+        glLineWidth(2);
     }
 
     public static void beginFrame() {
@@ -62,7 +63,6 @@ public class DebugDraw {
         }
     }
 
-    //TODO: Set line width
     public static void draw() {
         if (lines.size() <= 0) {
             return;
@@ -88,12 +88,15 @@ public class DebugDraw {
         }
 
         glBindBuffer(GL_ARRAY_BUFFER, vboID);
-        glBufferSubData(GL_ARRAY_BUFFER, 0, Arrays.copyOfRange(vertexArray, 0, lines.size() * 6 * 2));
+        glBufferSubData(GL_ARRAY_BUFFER, 0, Arrays.copyOfRange(vertexArray, 0,
+                lines.size() * 6 * 2));
 
         // use shader
         shader.use();
-        shader.uploadMat4f("uProjection", Window.get().getScene().getCamera().getProjectionMatrix());
-        shader.uploadMat4f("uView", Window.get().getScene().getCamera().getViewMatrix());
+        shader.uploadMat4f("uProjection",
+                Window.get().getScene().getCamera().getProjectionMatrix());
+        shader.uploadMat4f("uView",
+                Window.get().getScene().getCamera().getViewMatrix());
 
         // bind vao
         glBindVertexArray(vaoID);
@@ -141,11 +144,12 @@ public class DebugDraw {
 
         Vector4f color = rectangle.getColor();
         int lifetime = rectangle.getLifetime();
+        int lineWidth = rectangle.getLineWidth();
 
-        addLine(new Line(vertices[0], vertices[1], color, lifetime));
-        addLine(new Line(vertices[1], vertices[2], color, lifetime));
-        addLine(new Line(vertices[2], vertices[3], color, lifetime));
-        addLine(new Line(vertices[3], vertices[0], color, lifetime));
+        addLine(new Line(vertices[0], vertices[1], color, lifetime, lineWidth));
+        addLine(new Line(vertices[1], vertices[2], color, lifetime, lineWidth));
+        addLine(new Line(vertices[2], vertices[3], color, lifetime, lineWidth));
+        addLine(new Line(vertices[3], vertices[0], color, lifetime, lineWidth));
     }
 
     public static void addCircle(Circle circle) {
@@ -153,11 +157,12 @@ public class DebugDraw {
                 circle.getSegments());
 
         for (int i = 0; i < circlePoints.size() - 1; i++) {
-            addLine(new Line(circlePoints.get(i), circlePoints.get(i + 1), circle.getColor(), circle.getLifetime()));
+            addLine(new Line(circlePoints.get(i), circlePoints.get(i + 1), circle.getColor(), circle.getLifetime(),
+                    circle.getLineWidth()));
         }
         // last line segment
         addLine(new Line(circlePoints.get(circlePoints.size() - 1), circlePoints.get(0), circle.getColor(),
-                circle.getLifetime()));
+                circle.getLifetime(), circle.getLineWidth()));
     }
 
     private static List<Vector2f> calculateCirclePoints(Vector2f center, float radius, int segments) {
