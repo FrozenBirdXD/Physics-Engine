@@ -1,5 +1,7 @@
 package com.engine.graphics.scenes;
 
+import javax.naming.directory.InvalidAttributeValueException;
+
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
@@ -104,10 +106,16 @@ public class WorldEditorScene extends Scene {
         rec.setLineWidth(5);
         rec.setColor(ColorConversion.colorToRGBA(Colors.Red));
         DebugDraw.addRectangle(rec);
-        Circle circle = new Circle(new Vector2f(400, 400), 300);
-        circle.setLineWidth(1);
-        circle.setColor(ColorConversion.colorToRGBA(Colors.Red));
-        DebugDraw.addCircle(circle);
+        try {
+            Circle circle;
+            circle = new Circle(new Vector2f(400, 400), 300, 8);
+            circle.setLineWidth(1);
+            circle.setColor(ColorConversion.colorToRGBA(Colors.Red));
+            DebugDraw.addCircle(circle);
+        } catch (InvalidAttributeValueException e) {
+            assert false : e.getExplanation();
+        }
+
         for (GameObject object : this.gameObjects) {
             object.update(dt);
         }
