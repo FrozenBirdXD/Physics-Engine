@@ -15,6 +15,23 @@ public class Texture {
     private int textureId;
     private int width, height;
 
+    public Texture() {
+        this.filepath = "";
+        this.textureId = -1;
+        this.width = -1;
+        this.height = -1;
+    }
+
+    public Texture(int width, int height) {
+        this.filepath = "generated";
+
+        textureId = glGenTextures();
+        glBindTexture(GL_TEXTURE_2D, textureId);
+        // allocate space
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+        
+    }
+
     public void init(String filepath) {
         this.filepath = filepath;
 
@@ -56,11 +73,26 @@ public class Texture {
         stbi_image_free(image);
     }
 
-    public String getTexFilePath() {
+    @Override
+    public boolean equals(Object object) {
+        if (object == null) {
+            return false;
+        }
+        if (!(object instanceof Texture)) {
+            return false;
+        }
+        Texture texture = (Texture) object;
+        return this.filepath.equals(texture.getFilePath())
+                && this.height == texture.getHeight()
+                && this.textureId == texture.getTextureId()
+                && this.width == texture.getWidth();
+    }
+
+    public String getFilePath() {
         return this.filepath;
     }
 
-    public void setTexFilePath(String filepath) {
+    public void setFilePath(String filepath) {
         this.filepath = filepath;
     }
 
