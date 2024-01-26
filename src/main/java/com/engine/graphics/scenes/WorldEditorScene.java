@@ -108,7 +108,7 @@ public class WorldEditorScene extends Scene {
         DebugDraw.addRectangle(rec);
         try {
             Circle circle;
-            circle = new Circle(new Vector2f(400, 400), 300, 8);
+            circle = new Circle(new Vector2f(400, 400), 300, 14);
             circle.setLineWidth(1);
             circle.setColor(ColorConversion.colorToRGBA(Colors.Red));
             DebugDraw.addCircle(circle);
