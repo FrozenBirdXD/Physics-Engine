@@ -50,39 +50,22 @@ public class WorldEditorScene extends Scene {
         this.camera = new Camera(new Vector2f(0, 0));
 
         if (loadedScene) {
-            this.activeGameObject = gameObjects.get(0);
+            if (gameObjects.size() > 0) {
+                this.activeGameObject = gameObjects.get(0);
+            }
             return;
         }
         GameObject sandwich;
         GameObject sandwich1;
 
-        // sandwich = new GameObject("sandwich", new Transform(new Vector2f(0, 0), new
-        // Vector2f(300, 300)), 2);
-        // SpriteRenderer spriteRenderer = new SpriteRenderer();
-        // spriteRenderer.setColor(new Vector4f(222, 222, 22, 1));
-        // RigidBody rigidBody = new RigidBody();
-        // spriteRenderer.setSprite(sprites.getSprite(textureIndex));
-
-        // sandwich1 = new GameObject("sandwich1", new Transform(new Vector2f(200, 200),
-        // new Vector2f(300, 300)), 2);
-        // SpriteRenderer spriteRenderer1 = new SpriteRenderer();
-        // RigidBody rigidBody1 = new RigidBody();
-        // spriteRenderer1.setSprite(sprites.getSprite(textureIndex + 1));
-
-        // sandwich.addComponent(spriteRenderer);
-        // sandwich.addComponent(rigidBody);
-
-        // sandwich1.addComponent(spriteRenderer1);
-        // sandwich1.addComponent(rigidBody1);
-
-        // addGameObjectToScene(sandwich);
-        // addGameObjectToScene(sandwich1);
-
-        Square square = new Square("square", new Vector4f(244f, 11f, 2f, 255f));
+        Square square = new Square("square", ColorConversion.colorToRGBA(Colors.Black));
         square.setTransform(new Transform(new Vector2f(600, 300), new Vector2f(100, 100)));
         addGameObjectToScene(square);
 
-        this.activeGameObject = square;
+        Circle circle = new Circle(new Vector2f(300, 300), 50);
+        addGameObjectToScene(circle);
+
+        this.activeGameObject = circle;
     }
 
     private void loadResources() {
@@ -94,27 +77,32 @@ public class WorldEditorScene extends Scene {
                         0));
 
         sprites = AssetPool.getSpritesheet("src/main/assets/spritesheets/spritesheet_16x16.png");
+
+        for (GameObject o : gameObjects) {
+            if (o.getComponent(SpriteRenderer.class) != null) {
+                SpriteRenderer spriteRenderer = o.getComponent(SpriteRenderer.class);
+                if (spriteRenderer.getTexture() != null) {
+                    spriteRenderer.setTexture(AssetPool.getTexture(spriteRenderer.getTexture().getFilePath()));
+                }
+            }
+        }
     }
 
     @Override
     public void update(float dt) {
         testing.update(dt);
-        DebugDraw.addLine(
-                new Line(new Vector2f(300, 300), new Vector2f(330, 30), ColorConversion.colorToRGBA(Colors.Red), 1,
-                        10));
-        Rectangle rec = new Rectangle(new Vector2f(500, 500), new Vector2f(100, 100));
-        rec.setLineWidth(5);
-        rec.setColor(ColorConversion.colorToRGBA(Colors.Red));
-        DebugDraw.addRectangle(rec);
-        try {
-            Circle circle;
-            circle = new Circle(new Vector2f(400, 400), 300, 14);
-            circle.setLineWidth(1);
-            circle.setColor(ColorConversion.colorToRGBA(Colors.Red));
-            DebugDraw.addCircle(circle);
-        } catch (InvalidAttributeValueException e) {
-            assert false : e.getExplanation();
-        }
+        // DebugDraw.addLine(
+        //         new Line(new Vector2f(300, 300), new Vector2f(330, 30), ColorConversion.colorToRGBA(Colors.Red), 1,
+        //                 10));
+        // Rectangle rec = new Rectangle(new Vector2f(500, 500), new Vector2f(100, 100));
+        // rec.setLineWidth(5);
+        // rec.setColor(ColorConversion.colorToRGBA(Colors.Red));
+        // DebugDraw.addRectangle(rec);
+        // Circle circle;
+        // circle = new Circle(new Vector2f(400, 400), 300, 14);
+        // circle.setLineWidth(1);
+        // circle.setColor(ColorConversion.colorToRGBA(Colors.Red));
+        // DebugDraw.addCircle(circle);
 
         for (GameObject object : this.gameObjects) {
             object.update(dt);
