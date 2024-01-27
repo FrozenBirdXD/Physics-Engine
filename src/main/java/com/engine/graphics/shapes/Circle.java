@@ -1,7 +1,5 @@
 package com.engine.graphics.shapes;
 
-import javax.naming.directory.InvalidAttributeValueException;
-
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
@@ -14,34 +12,35 @@ public class Circle extends Shape {
     private int lifetime;
     private int segments;
 
-    public Circle(String name, Vector2f center, float radius, int segments, Vector4f color, int lifetime) throws InvalidAttributeValueException {
+    public Circle(String name, Vector2f center, float radius, int segments, Vector4f color, int lifetime) {
         super(name, color);
         this.center = center;
         this.radius = radius;
         this.lifetime = lifetime;
         if (segments < 10 || segments > 200) {
-            throw new InvalidAttributeValueException("Invalid amount of segments in class 'Circle'. Required: 10 - 200, Given: " + segments);
+            // throw new InvalidAttributeValueException("Invalid amount of segments in class
+            // 'Circle'. Required: 10 - 200, Given: " + segments);
         }
         this.segments = segments;
     }
 
-    public Circle(Vector2f center, float radius, int segments, Vector4f color, int lifetime) throws InvalidAttributeValueException {
+    public Circle(Vector2f center, float radius, int segments, Vector4f color, int lifetime) {
         this("Circle", center, radius, segments, color, lifetime);
     }
 
-    public Circle(Vector2f center, float radius, int segments, Vector4f color) throws InvalidAttributeValueException {
+    public Circle(Vector2f center, float radius, int segments, Vector4f color) {
         this(center, radius, segments, color, 1);
     }
 
-    public Circle(Vector2f center, float radius, int segments, int lifetime) throws InvalidAttributeValueException {
+    public Circle(Vector2f center, float radius, int segments, int lifetime) {
         this(center, radius, segments, ColorConversion.colorToRGBA(Colors.Black), lifetime);
     }
 
-    public Circle(Vector2f center, float radius, int segments) throws InvalidAttributeValueException {
+    public Circle(Vector2f center, float radius, int segments) {
         this(center, radius, segments, ColorConversion.colorToRGBA(Colors.Black), 1);
     }
 
-    public Circle(Vector2f center, float radius) throws InvalidAttributeValueException {
+    public Circle(Vector2f center, float radius) {
         this(center, radius, 64);
     }
 
