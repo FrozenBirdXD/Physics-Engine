@@ -17,9 +17,12 @@ import imgui.ImGuiIO;
 import imgui.callbacks.ImStrConsumer;
 import imgui.callbacks.ImStrSupplier;
 import imgui.enums.ImGuiBackendFlags;
+import imgui.enums.ImGuiCond;
 import imgui.enums.ImGuiConfigFlags;
 import imgui.enums.ImGuiKey;
 import imgui.enums.ImGuiMouseCursor;
+import imgui.enums.ImGuiStyleVar;
+import imgui.enums.ImGuiWindowFlags;
 import imgui.gl3.ImGuiImplGl3;
 
 import java.nio.*;
@@ -201,6 +204,7 @@ public class ImGuiLayer {
 
         // Any Dear ImGui code SHOULD go between ImGui.newFrame()/ImGui.render() methods
         ImGui.newFrame();
+        setupDockSpace();
         currentScene.sceneImgui();
         // ImGui.showDemoWindow();
         ImGui.render();
@@ -239,5 +243,14 @@ public class ImGuiLayer {
     public void destroyImGui() {
         imGuiGl3.dispose();
         ImGui.destroyContext();
+    }
+
+    private void setupDockSpace() {
+        int windowFlags = ImGuiWindowFlags.MenuBar;
+
+        ImGui.setNextWindowPos(0.0f, 0.0f, ImGuiCond.Always);
+        ImGui.setNextWindowSize(Window.get().getWidth(), Window.get().getHeight());
+        ImGui.pushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
+        ImGui.pushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
     }
 }
