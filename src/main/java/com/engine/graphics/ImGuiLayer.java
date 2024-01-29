@@ -10,6 +10,7 @@ import com.engine.graphics.listeners.KeyListener;
 import com.engine.graphics.listeners.MouseListener;
 import com.engine.graphics.scenes.Scene;
 
+import imgui.ImBool;
 import imgui.ImFontAtlas;
 import imgui.ImFontConfig;
 import imgui.ImGui;
@@ -56,6 +57,7 @@ public class ImGuiLayer {
 
         io.setIniFilename("imgui.ini"); // We don't want to save .ini file
         io.setConfigFlags(ImGuiConfigFlags.NavEnableKeyboard); // Navigation with keyboard
+        // io.setConfigFlags(ImGuiConfigFlags.DockingEnable);
         io.setBackendFlags(ImGuiBackendFlags.HasMouseCursors); // Mouse cursors to display while resizing windows etc.
         io.setBackendPlatformName("imgui_java_impl_glfw");
 
@@ -207,6 +209,7 @@ public class ImGuiLayer {
         setupDockSpace();
         currentScene.sceneImgui();
         // ImGui.showDemoWindow();
+        ImGui.end();
         ImGui.render();
 
         endFrame();
@@ -252,5 +255,13 @@ public class ImGuiLayer {
         ImGui.setNextWindowSize(Window.get().getWidth(), Window.get().getHeight());
         ImGui.pushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
         ImGui.pushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
+
+        windowFlags |= ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize
+                | ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
+
+        ImGui.begin("Docking", new ImBool(true), windowFlags);
+        // pop the two that were added
+        ImGui.popStyleVar(2);
+
     }
 }
