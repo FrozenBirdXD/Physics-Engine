@@ -10,6 +10,7 @@ import org.joml.Vector4f;
 
 import com.engine.graphics.Window;
 import com.engine.graphics.shapes.Circle;
+import com.engine.graphics.shapes.Ellipse;
 import com.engine.graphics.shapes.Line;
 import com.engine.graphics.shapes.Rectangle;
 import com.engine.graphics.utils.AssetPool;
@@ -173,6 +174,34 @@ public class DebugDraw {
             float angle = (float) Math.toRadians(angleIncrement * i);
             float x = center.x + radius * (float) Math.cos(angle);
             float y = center.y + radius * (float) Math.sin(angle);
+            points.add(new Vector2f(x, y));
+        }
+
+        return points;
+    }
+
+    public static void addEllipse(Ellipse ellipse) {
+        List<Vector2f> ellipsePoints = calculateEllipsePoints(ellipse.getCenter(), ellipse.getRadiusX(),
+                ellipse.getRadiusY(),
+                ellipse.getSegments());
+
+        for (int i = 0; i < ellipsePoints.size() - 1; i++) {
+            addLine(new Line(ellipsePoints.get(i), ellipsePoints.get(i + 1), ellipse.getColor(), ellipse.getLifetime(),
+                    ellipse.getLineWidth()));
+        }
+        // last line segment
+        addLine(new Line(ellipsePoints.get(ellipsePoints.size() - 1), ellipsePoints.get(0), ellipse.getColor(),
+                ellipse.getLifetime(), ellipse.getLineWidth()));
+    }
+
+    private static List<Vector2f> calculateEllipsePoints(Vector2f center, float radiusX, float radiusY, int segments) {
+        List<Vector2f> points = new ArrayList<>();
+        float angleIncrement = 360.0f / segments;
+
+        for (int i = 0; i < segments; i++) {
+            float angle = (float) Math.toRadians(angleIncrement * i);
+            float x = center.x + radiusX * (float) Math.cos(angle);
+            float y = center.y + radiusY * (float) Math.sin(angle);
             points.add(new Vector2f(x, y));
         }
 
