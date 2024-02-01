@@ -19,6 +19,7 @@ import com.engine.graphics.renderer.Texture;
 import com.engine.graphics.serialization.ComponentDeserializer;
 import com.engine.graphics.serialization.GameObjectDeserializer;
 import com.engine.graphics.shapes.Circle;
+import com.engine.graphics.shapes.Ellipse;
 import com.engine.graphics.shapes.Line;
 import com.engine.graphics.shapes.Rectangle;
 import com.engine.graphics.shapes.Square;
@@ -92,9 +93,11 @@ public class WorldEditorScene extends Scene {
     public void update(float dt) {
         testing.update(dt);
         // DebugDraw.addLine(
-        //         new Line(new Vector2f(300, 300), new Vector2f(330, 30), ColorConversion.colorToRGBA(Colors.Red), 1,
-        //                 10));
-        // Rectangle rec = new Rectangle(new Vector2f(500, 500), new Vector2f(100, 100));
+        // new Line(new Vector2f(300, 300), new Vector2f(330, 30),
+        // ColorConversion.colorToRGBA(Colors.Red), 1,
+        // 10));
+        // Rectangle rec = new Rectangle(new Vector2f(500, 500), new Vector2f(100,
+        // 100));
         // rec.setLineWidth(5);
         // rec.setColor(ColorConversion.colorToRGBA(Colors.Red));
         // DebugDraw.addRectangle(rec);
@@ -103,6 +106,9 @@ public class WorldEditorScene extends Scene {
         // circle.setLineWidth(1);
         // circle.setColor(ColorConversion.colorToRGBA(Colors.Red));
         // DebugDraw.addCircle(circle);
+        Ellipse ellipse = new Ellipse(new Vector2f(600, 300), 150, 100, 64, ColorConversion.colorToRGBA(Colors.Red), 1,
+                5);
+        DebugDraw.addEllipse(ellipse);
 
         for (GameObject object : this.gameObjects) {
             object.update(dt);
